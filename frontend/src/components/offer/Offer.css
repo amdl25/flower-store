@@ -1,0 +1,168 @@
+.offer {
+    width: 60%;
+    height: 55vh;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 100px auto;
+    padding: 20px 50px;
+    background: linear-gradient(180deg, #F4E5E5 0%, #FCBCBE 100%);
+    border-radius: 24px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.offer-left {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding-left: 50px;
+}
+
+.offer-left h1 {
+    font-size: 35px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.btn-reducere {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.btn-reducere button {
+    width: 120px;
+    height: 35px;
+    border-radius: 5px;
+    border: none;
+    background: #BB2A2A;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.btn-reducere button:hover {
+    background: #A52626;
+}
+
+.btn-reducere p {
+    font-size: 14px;
+    font-weight: bold;
+    color: #BB2A2A;
+    margin-left: 10px;
+}
+
+.offer-right {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-right: 20px;
+}
+
+.offer-right img {
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+    transform: rotate(-100deg);
+    transition: transform 0.3s;
+}
+
+.offer-right img:hover {
+    transform: rotate(-105deg);
+}
+
+@media (max-width: 1280px) {
+    .offer {
+        width: 60%;
+        height: 300px;
+    }
+
+    .offer-left h1 {
+        font-size: 30px;
+    }
+
+    .offer-right img {
+        width: 250px;
+    }
+}
+
+@media (max-width: 1024px) {
+    .offer {
+        width: 70%;
+        padding: 20px 40px;
+    }
+
+    .offer-left h1 {
+        font-size: 25px;
+    }
+
+    .offer-right img {
+        width: 210px;
+    }
+}
+
+@media (max-width: 800px) {
+    .offer {
+        width: 80%;
+        padding: 10px 20px;
+        height: auto;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .offer-left {
+        align-items: center;
+        padding-left: 0;
+    }
+
+    .offer-left h1 {
+        font-size: 20px;
+    }
+
+    .btn-reducere button {
+        width: 100px;
+        height: 30px;
+        font-size: 12px;
+    }
+
+    .btn-reducere p {
+        font-size: 12px;
+    }
+
+    .offer-right img {
+        width: 150px;
+        margin-top: 20px;
+        transform: rotate(0);
+    }
+}
+
+@media (max-width: 500px) {
+    .offer {
+        padding: 20px 20px;
+        height: auto;
+    }
+
+    .offer-left h1 {
+        font-size: 18px;
+    }
+
+    .offer-right img {
+        width: 120px;
+    }
+
+    .btn-reducere button {
+        width: 80px;
+        height: 25px;
+        font-size: 10px;
+    }
+
+    .btn-reducere p {
+        font-size: 10px;
+    }
+}

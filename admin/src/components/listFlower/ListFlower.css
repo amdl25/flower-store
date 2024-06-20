@@ -1,0 +1,208 @@
+.list-flower {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 800px;
+    padding: 30px 50px;
+    margin: 20px 30px;
+    border-radius: 6px;
+    background: white;
+}
+
+.listflower-format-main {
+    display: grid;
+    grid-template-columns: 2fr 3fr 2fr 1fr;
+    gap: 10px;
+    width: 100%;
+    padding: 20px 0;
+    color: #454545;
+    font-size: 15px;
+    font-weight: 600;
+    align-items: center;
+    text-align: center;
+}
+
+.listflower-format {
+    display: grid;
+    grid-template-columns: 2fr 3fr 2fr 1fr;
+    gap: 10px;
+    width: 100%;
+    padding: 20px 0;
+    color: #454545;
+    font-size: 15px;
+    font-weight: 500;
+    align-items: center;
+    text-align: center;
+}
+
+.listflower-format .quantity {
+    text-align: center;
+}
+
+.listflower-format .colors {
+    text-align: center;
+    padding-left: 0;
+}
+
+.view-more-btn {
+    background: none;
+    border: none;
+    color: #007bff;
+    cursor: pointer;
+    text-decoration: underline;
+    font-size: 14px;
+    margin-left: 5px;
+}
+
+.listflower-actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.listflower-remove-icon {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    justify-self: center;
+    transition: transform 0.3s;
+}
+
+.listflower-remove-icon:hover {
+    transform: scale(1.2);
+}
+
+.listflower-actions button {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.listflower-actions button:hover {
+    background-color: #0056b3;
+}
+
+.listflower-allflowers {
+    overflow-y: auto;
+}
+
+.edit-flower-form {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    width: 80%;
+    max-width: 500px;
+}
+
+.edit-flower-form h2 {
+    margin-top: 0;
+    text-align: center;
+}
+
+.edit-flower-form form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.edit-flower-form label {
+    font-weight: bold;
+}
+
+.edit-flower-form input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.edit-flower-form button {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+}
+
+@media(max-width:800px) {
+    .list-flower {
+        width: auto;
+        padding: 30px;
+        margin: 20px;
+    }
+
+    .listflower-format-main,
+    .listflower-format {
+        grid-template-columns: 2fr 3fr 1fr 1fr;
+        font-size: 14px;
+    }
+
+    .listflower-remove-icon {
+        width: 16px;
+        height: 16px;
+    }
+}
+
+.colors-modal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    text-align: center;
+    z-index: 1000;
+}
+
+.colors-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.75);
+    z-index: 999;
+}
+
+.colors-modal h2 {
+    margin-bottom: 20px;
+    font-size: 18px;
+}
+
+.colors-modal ul {
+    list-style: none;
+    padding: 0;
+}
+
+.colors-modal li {
+    margin: 5px 0;
+}
+
+.colors-modal button {
+    margin-top: 20px;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+}
+
+.colors-modal button:hover {
+    background-color: #0056b3;
+}
+

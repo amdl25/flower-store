@@ -1,0 +1,154 @@
+.hero{
+    height: 100vh;
+    background: #F4F5F7;
+    display: flex;
+    font-family: 'Sedan';
+
+}
+
+
+.hero-left{ 
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap:20px;
+    padding-left: 180px;
+    line-height: 1.1;
+}
+
+
+
+
+.hero-left h2{
+    font-style: bold;
+    font-size: 55px;
+    font-weight: 600;
+    line-height: 5vh;
+}
+
+.hero-left .hero-p p{
+    color: #44464A;
+    font-size: 18px;
+    font-weight: 100;
+    margin: 0.3vw;
+}
+
+.hero-left .hero-p{
+    margin-top: 40px;
+    margin-bottom: 20px;
+}
+
+.hero-afla-btn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap:15px;
+    width: 170px;
+    height: 47px;
+    border-radius: 5px;
+    border: #BB2A2A;
+    background: #BB2A2A;
+    margin-top: 30px;
+    color:white;
+    font-size: 16px;
+    font-style: bold;
+    cursor: pointer;
+
+}
+
+.hero-right{
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+
+
+.hero-afla-btn hr {
+    border: none;
+    width: 80%;
+    height: 3px;
+    border-radius: 10px;
+    background: #BB2A2A;
+}
+
+@media(max-width:1280px){
+    .hero-left{
+        padding-left: 180px;
+    }
+
+    .hero-left h2{
+        font-size: 45px;
+    }
+
+    .hero-left .hero-p p{
+        font-size: 14px;
+    }
+
+    .hero-afla-btn{
+        gap: 10px;
+        width: 150px;
+        height: 40px;
+        margin-top: 20px;
+        font-size: 14px;
+    }
+}
+
+@media(max-width:1024px){
+    .hero img{
+        width: 200px;
+    }
+    .hero-left{
+        padding-left: 130px;
+    }
+
+    .hero-left h2{
+        font-size: 40px;
+    }
+
+    .hero-left .hero-p p{
+        font-size: 13px;
+    }
+
+    .hero-afla-btn{
+        gap: 10px;
+        width: 130px;
+        height: 30px;
+        margin-top: 20px;
+        font-size: 13px;
+    }
+
+}
+
+@media(max-width:800px){
+    .hero-left{
+        padding-left: 100px;
+    }
+
+    .hero-left h2{
+        font-size: 35px;
+    }
+
+    .hero-left .hero-p p{
+        font-size: 12px;
+    }
+
+    .hero-afla-btn{
+        gap: 10px;
+        width: 110px;
+        height: 30px;
+        margin-top: 20px;
+        font-size: 12px;
+    }
+
+}
+
+@media(max-width:500px){
+    .hero-left h2{
+        font-size: 35px;
+    }
+
+}

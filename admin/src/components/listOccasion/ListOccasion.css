@@ -1,0 +1,159 @@
+.list-occasion {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 800px;
+    padding: 30px 50px;
+    margin: 20px 30px;
+    border-radius: 6px;
+    background: white;
+}
+
+.listoccasion-format-main {
+    display: grid;
+    grid-template-columns: 3fr 2fr;
+    gap: 10px;
+    width: 100%;
+    padding: 20px 0;
+    color: #454545;
+    font-size: 15px;
+    font-weight: 600;
+    align-items: center;
+    text-align: center;
+}
+
+.listoccasion-format {
+    display: grid;
+    grid-template-columns: 3fr 2fr;
+    gap: 10px;
+    width: 100%;
+    padding: 20px 0;
+    color: #454545;
+    font-size: 15px;
+    font-weight: 500;
+    align-items: center;
+    text-align: center;
+}
+
+.listoccasion-actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.listoccasion-remove-icon {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    justify-self: center;
+    transition: transform 0.3s;
+}
+
+.listoccasion-remove-icon:hover {
+    transform: scale(1.2);
+}
+
+.listoccasion-actions button {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.listoccasion-actions button:hover {
+    background-color: #0056b3;
+}
+
+.listoccasion-alloccasions {
+    overflow-y: auto;
+}
+
+.edit-occasion-form {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    width: 80%;
+    max-width: 500px;
+}
+
+.edit-occasion-form h2 {
+    margin-top: 0;
+    text-align: center;
+}
+
+.edit-occasion-form form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.edit-occasion-form label {
+    font-weight: bold;
+}
+
+.edit-occasion-form input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.edit-occasion-form button {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.edit-occasion-form button:hover {
+    background-color: #0056b3;
+}
+
+.edit-occasion-form button[type="button"] {
+    background-color: #6c757d;
+}
+
+.edit-occasion-form button[type="button"]:hover {
+    background-color: #5a6268;
+}
+
+.edit-occasion-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 500;
+}
+
+@media(max-width:800px) {
+    .list-occasion {
+        width: auto;
+        padding: 30px;
+        margin: 20px;
+    }
+
+    .listoccasion-format-main,
+    .listoccasion-format {
+        grid-template-columns: 2fr 1fr;
+        font-size: 14px;
+    }
+
+    .listoccasion-remove-icon {
+        width: 16px;
+        height: 16px;
+    }
+}

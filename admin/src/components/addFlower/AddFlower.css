@@ -1,0 +1,117 @@
+.addflower {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 800px;
+    padding: 30px 50px;
+    margin: 20px 30px;
+    border-radius: 6px;
+    background: white;
+}
+
+.addflower-field {
+    width: 100%;
+    color: #7b7b7b;
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+.addflower-field input {
+    box-sizing: border-box;
+    width: 100%;
+    height: 50px;
+    border-radius: 4px;
+    padding-left: 15px;
+    border: 1px solid #c3c3c3;
+    outline: none;
+    color: #7b7f7b;
+    font-family: 'Poppins';
+    font-size: 14px;
+}
+
+.addflower-field .basic-multi-select {
+    width: 100%;
+}
+
+.addflower-field .select__control {
+    border: 1px solid #c3c3c3;
+    border-radius: 4px;
+    padding: 5px;
+    font-size: 14px;
+    color: #7b7b7b;
+}
+
+.addflower-field .select__control--is-focused {
+    border-color: #007bff;
+    box-shadow: 0 0 0 1px #007bff;
+}
+
+.addflower-field .select__value-container {
+    padding: 0;
+}
+
+.addflower-field .select__menu {
+    margin-top: 0;
+    border-radius: 0 0 4px 4px;
+    border-top: 0;
+    border-left: 1px solid #c3c3c3;
+    border-right: 1px solid #c3c3c3;
+    border-bottom: 1px solid #c3c3c3;
+}
+
+.addflower-field .select__option {
+    padding: 8px 10px;
+    cursor: pointer;
+}
+
+.addflower-field .select__option--is-selected {
+    background-color: #007bff;
+    color: white;
+}
+
+.addflower-field .select__option--is-focused {
+    background-color: #f1f1f1;
+}
+
+.addflower-field .select__multi-value {
+    background-color: #007bff;
+    color: white;
+    border-radius: 4px;
+    padding: 2px 5px;
+    margin: 2px 2px;
+}
+
+.addflower-field .select__multi-value__label {
+    color: white;
+    padding: 0;
+}
+
+.addflower-field .select__multi-value__remove {
+    color: white;
+    cursor: pointer;
+}
+
+.addflower-field .select__indicator-separator {
+    display: none;
+}
+
+.addflower-btn {
+    width: 160px;
+    height: 50px;
+    border-radius: 6px;
+    background: #6079ff;
+    border: none;
+    cursor: pointer;
+    color: white;
+    font-size: 16px;
+    font-weight: 500;
+    display: block;
+    margin: 20px auto 0;
+}
+
+@media(max-width:800px) {
+    .addflower {
+        width: auto;
+        padding: 30px;
+        margin: 20px;
+    }
+}

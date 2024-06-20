@@ -1,0 +1,165 @@
+.productdisplay-right-delivery-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.productdisplayright-datetimepicker {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-top: 10px;
+  position: relative;
+}
+
+.custom-select {
+  position: relative;
+  margin-left: 10px;
+  width: 140px;
+}
+
+.custom-select .react-select__control {
+  border: 1px solid #ccc;
+  padding: 3px;
+  box-shadow: none;
+  font-size: 16px;
+  height: 35px;
+
+}
+
+.custom-select .react-select__option {
+  background-color: #fff;
+  color: #000;
+}
+
+.custom-select .react-select__option--is-selected {
+  background-color: #fff;
+}
+
+.custom-select .react-select__option:hover {
+  background-color: #f0f0f0;
+}
+
+.productdisplay-right-delivery input[type="date"] {
+  padding: 8px;
+  font-size: 16px;
+}
+
+.productdisplay-right-delivery h1 {
+  text-align: left;
+}
+
+.react-datepicker-wrapper {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 0;
+  z-index: 1;
+}
+
+
+@media (max-width: 1280px) {
+  .productdisplay-right-delivery h1 {
+    font-size: 18px;
+  }
+
+  .productdisplay-right-delivery input[type="date"] {
+    padding: 8px;
+    font-size: 14px;
+    width: 100px;
+  }
+
+  .custom-select {
+    width: 90px;
+
+  }
+
+  .custom-select .react-select__control {
+    font-size: 10px; 
+    padding: 4px;
+    height: 40px;
+  }
+
+  .productdisplay-right-message .greeting-message {
+    width: 225px;
+  }
+
+}
+
+
+@media (max-width: 1024px) {
+  .productdisplay-right-delivery h1 {
+    font-size: 16px;
+  }
+
+  .productdisplay-right-delivery input[type="date"] {
+    padding: 8px;
+    font-size: 13px;
+    width: 100px;
+  }
+
+  .custom-select {
+    width: 90px;
+
+  }
+
+  .custom-select .react-select__control {
+    font-size: 13px; 
+    padding: 4px;
+    height: 35px;
+  }
+
+  .productdisplay-right-message .greeting-message {
+    width: 225px;
+  }
+
+}
+
+@media (max-width: 800px) {
+  .productdisplay-right-delivery h1 {
+    font-size: 16px;
+  }
+
+  .productdisplay-right-delivery input[type="date"] {
+    padding: 8px;
+    font-size: 12px;
+    width: 155px;
+  }
+
+  .custom-select {
+    width: 60%;
+
+  }
+
+  .custom-select .react-select__control {
+    font-size: 13px; 
+    padding: 4px;
+    height: 40px;
+  }
+
+  .productdisplay-right-message .greeting-message {
+    width: 77%;
+  }
+
+}
+
+@media(max-width:500px){
+  .productdisplay-right-delivery h1 {
+    font-size: 16px;
+  }
+
+  .productdisplay-right-delivery input[type="date"] {
+    padding: 8px;
+    font-size: 12px;
+    width: 100px;
+  }
+
+  .custom-select {
+    width: 90px;
+
+  }
+
+  .productdisplay-right-message .greeting-message {
+    width: 230px;
+  }
+
+}

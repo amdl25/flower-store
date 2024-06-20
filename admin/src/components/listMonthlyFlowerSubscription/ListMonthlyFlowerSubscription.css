@@ -1,0 +1,250 @@
+.list-monthly-flower {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 740px;
+    padding: 10px 50px;
+    margin: 30px;
+    border-radius: 6px;
+    background: white;
+}
+
+.list-format-main {
+    display: grid;
+    grid-template-columns: 100px 200px 100px 200px 100px;
+    gap: 50px;
+    width: 100%;
+    padding: 20px 0px;
+    color: #454545;
+    font-size: 15px;
+    font-weight: 600;
+    align-items: center;
+    text-align: center;
+}
+
+.list-format {
+    display: grid;
+    grid-template-columns: 100px 200px 100px 200px 100px;
+    gap: 50px;
+    width: 100%;
+    padding: 20px 0px;
+    color: #454545;
+    font-size: 15px;
+    font-weight: 500;
+    align-items: center;
+    text-align: center;
+}
+
+.list-flower-icon {
+    height: 80px;
+    width: 80px;
+    object-fit: cover;
+    justify-self: center;
+    border-radius: 5px;
+}
+
+.list-remove-icon {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    justify-self: center;
+    transition: transform 0.3s;
+}
+
+.list-remove-icon:hover {
+    transform: scale(1.2);
+}
+
+.list-allflowers {
+    overflow-y: auto;
+    width: 100%;
+}
+
+.list-actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.list-actions button,
+.list-format .view-more-button {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.list-actions button:hover,
+.list-format .view-more-button:hover {
+    background-color: #0056b3;
+}
+
+.edit-flower-form {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    width: 80%;
+    max-width: 500px;
+}
+
+.edit-flower-form h2 {
+    margin-top: 0;
+    text-align: center;
+}
+
+.edit-flower-form form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.edit-flower-form label {
+    font-weight: bold;
+}
+
+.edit-flower-form input,
+.edit-flower-form textarea {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.edit-flower-form button {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.edit-flower-form button:hover {
+    background-color: #0056b3;
+}
+
+.edit-flower-form button[type="button"] {
+    background-color: #6c757d;
+}
+
+.edit-flower-form button[type="button"]:hover {
+    background-color: #5a6268;
+}
+
+.upload-field {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 15px;
+}
+
+.upload-field label {
+    cursor: pointer;
+}
+
+.upload-field img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+}
+
+.edit-flower-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 500;
+}
+
+@media (max-width: 800px) {
+    .list-monthly-flower {
+        box-sizing: border-box;
+        width: 95%;
+        height: 100%;
+        padding: 10px 30px;
+        margin: 20px auto;
+    }
+
+    .list-format-main, .list-format {
+        grid-template-columns: 1fr 2fr 1fr 2fr 1fr;
+        padding: 15px 0px;
+        gap: 20px;
+        font-size: 12px;
+    }
+
+    .list-flower-icon {
+        height: 60px;
+        width: 60px;
+    }
+
+    .list-remove-icon {
+        width: 16px;
+        height: 16px;
+    }
+}
+
+.modal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    right: auto;
+    bottom: auto;
+    transform: translate(-50%, -50%);
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    max-width: 500px;
+    width: 80%;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
+
+.modal h2 {
+    margin-top: 0;
+    text-align: center;
+}
+
+.modal p {
+    text-align: justify;
+}
+
+.modal button {
+    display: block;
+    margin: 20px auto 0;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.modal button:hover {
+    background-color: #0056b3;
+}

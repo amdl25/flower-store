@@ -1,0 +1,157 @@
+.filtering-container {
+    margin-top: 20px;
+
+}
+
+.filtering-form {
+    display: block;
+}
+
+.filtering-item {
+    margin-bottom: 10px;
+    position: relative;
+}
+
+.filtering-select {
+    font-size: 14px;
+    margin-right: 10px;
+}
+
+.filtering-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; 
+    padding: 10px 20px;
+    border-radius: 40px;
+    border: 1px solid #888;
+    cursor: pointer;
+    width: 100px;
+}
+
+.filtering-toggle-icon {
+    transition: transform 0.3s ease;
+}
+
+.filtering-toggle.expanded .filtering-toggle-icon {
+    transform: rotate(45deg);
+}
+
+.filtering-options {
+    position: absolute;
+    top: calc(100% + 5px);
+    left:0;
+    display: flex;
+    flex-direction: column;
+    margin-top: 5px;
+}
+
+.options-box {
+    position: absolute;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+
+.filtering-option {
+    display: block;
+    padding: 8px;
+    margin-bottom: 4px;
+    cursor: pointer;
+    color: #333;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    transition: background-color 0.3s;
+  }
+  
+  .filtering-option:hover {
+    background-color: #f0f0f0;
+  }
+
+  .filtering-item:hover .filtering-options {
+    display: block;
+}
+
+.filtering-button {
+    margin-top: 5px;
+    padding: 8px 20px;
+    background-color: #BB2A2A;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer
+}
+
+.filter-label {
+    display: inline-block;
+    margin-right: 8px;
+    margin-bottom: 8px;
+    padding: 4px 8px;
+    background-color: #f0f0f0;
+    border-radius: 4px;
+    color: #333;
+    font-size: 14px;
+  }
+  
+  .remove-filter {
+    margin-left: 4px;
+    cursor: pointer;
+  }
+
+.filter-label img {
+    width: 12px; 
+    height: 12px; 
+    margin-left: 5px;
+    cursor: pointer;
+}
+
+.filtering-column {
+    display: inline-block;
+    vertical-align: top;
+    margin-right: 20px; 
+}
+
+@media(max-width:1280px){
+    .filtering-container{
+        margin-left: 30px;
+    }
+}
+
+@media(max-width:1024px){
+    .filtering-container{
+        margin-bottom: 20px;
+        margin-left: 30px;
+    }
+    .filtering-toggle {
+        font-size: 12px;
+        width: 70px;
+    }
+}
+
+
+@media(max-width:800px){
+    .filtering-container{
+        margin-bottom: 20px;
+        margin-left: 30px;
+    }
+    .filtering-toggle {
+        font-size: 12px;
+        width: 70px;
+    }
+}
+
+@media(max-width:500px){
+    .filtering-container{
+        margin-top: 80px;
+        margin-bottom: 20px;
+        margin-left: 30px;
+    }
+    .filtering-toggle {
+        font-size: 12px;
+        width: 80px;
+    }
+}

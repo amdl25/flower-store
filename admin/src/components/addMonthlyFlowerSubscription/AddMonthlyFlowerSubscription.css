@@ -1,0 +1,101 @@
+.add-monthly-flower {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 800px;
+    padding: 30px 50px;
+    margin: 20px 30px;
+    border-radius: 6px;
+    background: white;
+}
+
+.add-monthly-flower h1 {
+    text-align: center;
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.add-monthly-flower .form-group {
+    width: 100%;
+    color: #7b7b7b;
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+.add-monthly-flower label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #7b7b7b;
+}
+
+.add-monthly-flower input[type="text"],
+.add-monthly-flower textarea {
+    box-sizing: border-box;
+    width: 100%;
+    height: 50px;
+    border-radius: 4px;
+    padding-left: 15px;
+    border: 1px solid #c3c3c3;
+    outline: none;
+    color: #7b7f7b;
+    font-family: 'Poppins';
+    font-size: 14px;
+}
+
+.add-monthly-flower textarea {
+    height: 100px;
+    resize: none;
+}
+
+.add-monthly-flower .upload-field {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.add-monthly-flower .upload-thumbnail-img {
+    height: 120px;
+    width: 120px;
+    border-radius: 10px;
+    object-fit: contain;
+    border: 2px dashed #ccc;
+    margin-bottom: 10px;
+}
+
+.add-monthly-flower button {
+    width: 160px;
+    height: 50px;
+    border-radius: 6px;
+    background: #6079ff;
+    border: none;
+    cursor: pointer;
+    color: white;
+    font-size: 16px;
+    font-weight: 500;
+    display: block;
+    margin: 20px auto 0;
+}
+
+.add-monthly-flower button:hover {
+    background-color: #218838;
+}
+
+.add-monthly-flower p {
+    text-align: center;
+    color: #555;
+    margin-top: 20px;
+}
+
+@media(max-width:800px) {
+    .add-monthly-flower {
+        width: auto;
+        padding: 30px;
+        margin: 20px;
+    }
+
+    .add-monthly-flower button {
+        width: 100%;
+    }
+}

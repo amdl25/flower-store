@@ -1,0 +1,145 @@
+.list-promocode {
+    width: 100%;
+    padding: 20px;
+}
+
+.listpromocode-format-main {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 10px;
+    padding: 10px;
+    font-weight: 600;
+    text-align: center;
+}
+
+.listpromocode-format {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 10px;
+    align-items: center;
+    font-size: 14px;
+    font-weight: 500;
+    text-align: center;
+}
+
+.listpromocode-remove-icon {
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+}
+
+.listpromocode-actions button {
+    margin-right: 10px;
+    cursor: pointer;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.listpromocode-actions button:hover {
+    background-color: #0056b3;
+}
+
+.colors span {
+    display: inline-block;
+    margin-right: 5px;
+    padding: 2px 5px;
+    background-color: #eee;
+    border-radius: 4px;
+}
+
+.quantity {
+    text-align: center;
+}
+
+.edit-promocode-form {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    width: 80%;
+    max-width: 400px;
+    box-sizing: border-box;
+    overflow-y: auto;
+    max-height: 90vh;
+}
+
+.edit-promocode-form h2 {
+    margin-bottom: 20px;
+    font-size: 18px;
+}
+
+.edit-promocode-form label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 14px;
+}
+
+.edit-promocode-form input,
+.edit-promocode-form select {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.edit-promocode-form button {
+    width: 48%;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.edit-promocode-form button[type="submit"] {
+    background-color: #007bff;
+    color: white;
+}
+
+.edit-promocode-form button[type="button"] {
+    background-color: #6c757d;
+    color: white;
+}
+
+.edit-promocode-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+}
+
+@media (max-width: 768px) {
+    .listpromocode-format-main,
+    .listpromocode-format {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .listpromocode-actions {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        gap: 5px;
+    }
+
+    .edit-promocode-form {
+        width: 90%;
+        max-width: 300px;
+    }
+}
