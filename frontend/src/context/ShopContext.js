@@ -65,7 +65,8 @@ const ShopContextProvider = (props) => {
                 date: productDetails.date,
                 time: productDetails.time,
                 greetingMessage: productDetails.greetingMessage,
-                selectedOptions: productDetails.selectedOptions
+                selectedOptions: productDetails.selectedOptions,
+                additionalCost: productDetails.additionalCost
             }
         }));
     
@@ -183,12 +184,14 @@ const ShopContextProvider = (props) => {
                 const itemInfo = all_product.find((product) => product.id === Number(itemId));
                 if (itemInfo) {
                     const price = itemInfo.discountedPrice || itemInfo.price;
-                    totalAmount += price * cartItems[itemId].quantity;
+                    const optionCost = cartItems[itemId].additionalCost || 0;
+                    totalAmount += (price + optionCost) * cartItems[itemId].quantity;
                 }
             }
         }
         return totalAmount;
     };
+    
 
     const contextValue = { 
         getTotalCartItems, 

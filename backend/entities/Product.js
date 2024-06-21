@@ -26,10 +26,6 @@ const Product = mongoose.model("Product", {
         type: Number,
         required: false
     },
-    productQuantity: {
-        type: Number,
-        required: true
-    },
     flowers: [
         { 
             flower: {

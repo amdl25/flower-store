@@ -219,7 +219,6 @@ const Profil = ({ userData, setIsAuthenticated, updateUserData }) => {
                     <div className="orders-list">
                         {orders.map(order => (
                             <div className="order-card" key={order.id}>
-                                <h4>ID Comandă: {order.id}</h4>
                                 <p><strong>Data:</strong> {formatDate(order.date)}</p>
                                 <p><strong>Total:</strong> {order.totalAmount} lei</p>
                                 <p><strong>Produse:</strong></p>

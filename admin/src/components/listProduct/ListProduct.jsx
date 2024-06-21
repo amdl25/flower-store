@@ -94,7 +94,6 @@ const ListProduct = () => {
                 <p>Preț</p>
                 <p>Preț Redus</p>
                 <p>Categorie</p>
-                <p>Cantitate</p>
                 <p>Acțiuni</p>
             </div>
             <div className="listproduct-allproducts">
@@ -107,7 +106,6 @@ const ListProduct = () => {
                             <p>{product.price} lei</p>
                             <p>{product.discountedPrice || 0} lei</p>
                             <p>{product.category}</p>
-                            <p>{product.productQuantity}</p>
                             <div className="listproduct-actions">
                                 <button onClick={() => handleEdit(product)}>Modifică</button>
                                 <img onClick={() => { removeProduct(product.id) }} className='listproduct-remove-icon' src={cross_icon} alt="" />
@@ -150,12 +148,6 @@ const ListProduct = () => {
                                 type="text"
                                 value={editingProduct.category}
                                 onChange={(e) => setEditingProduct({ ...editingProduct, category: e.target.value })}
-                            />
-                            <label>Cantitate:</label>
-                            <input
-                                type="number"
-                                value={editingProduct.productQuantity}
-                                onChange={(e) => setEditingProduct({ ...editingProduct, productQuantity: parseInt(e.target.value) })}
                             />
                             <label>Imagine:</label>
                             <div className='upload-field'>

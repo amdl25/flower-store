@@ -16,7 +16,6 @@ const ProductDisplay = (props) => {
     const [greetingMessage, setGreetingMessage] = useState("");
     const [showWarning, setShowWarning] = useState(false);
     const [flowerDetails, setFlowerDetails] = useState([]);
-    const [productQuantity, setProductQuantity] = useState(produs.productQuantity);
 
     const [selectedOptions, setSelectedOptions] = useState({
         greetingCard: false,
@@ -25,17 +24,6 @@ const ProductDisplay = (props) => {
 
     useEffect(() => {
         window.scrollTo(0, 0);
-
-        fetch(`http://localhost:4000/api/products/${produs.id}`)
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    setProductQuantity(data.product.productQuantity);
-                }
-            })
-            .catch(error => {
-                console.error('Error fetching product quantity:', error);
-            });
 
         if (produs && produs.flowers) {
             fetch('http://localhost:4000/api/flowers/allflowers')
@@ -84,12 +72,18 @@ const ProductDisplay = (props) => {
 
     const handleAddToCart = () => {
         if (areRequiredFieldsFilled) {
+            let additionalCost = 0;
+            if (selectedOptions.chocolateBox) {
+                additionalCost += 85;
+            }
+
             const productDetails = {
                 productId: produs.id,
                 date,
                 time: selectedTimeOption.value,
                 greetingMessage: selectedOptions.greetingCard ? greetingMessage : null,
-                selectedOptions
+                selectedOptions,
+                additionalCost
             };
     
             console.log("Product details to be added to cart:", productDetails);
@@ -145,10 +139,6 @@ const ProductDisplay = (props) => {
 
             <div className='productdisplay-right'>
                 <h1>{produs.name}</h1>
-
-                <div className='productdisplay-right-quantity'>
-                    <h3>{productQuantity} bucăți</h3>
-                </div>
 
                 <div className='productdisplay-right-flowers'>
                     <h2>Flori incluse:</h2>

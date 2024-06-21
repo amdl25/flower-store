@@ -51,9 +51,6 @@ const addOrder = async (req, res) => {
         for (let product of products) {
             const productInDb = await Product.findOne({ id: product.productId });
             if (productInDb) {
-                productInDb.productQuantity -= product.quantity;
-                await productInDb.save();
-
                 for (let productFlower of productInDb.flowers) {
                     const flowerInDb = await Flower.findOne({ id: productFlower.flower });
                     if (flowerInDb) {

@@ -11,7 +11,6 @@ const AddProduct = () => {
         category: "buchete",
         price: "",
         discountedPrice: "",
-        productQuantity: "",
         flowers: [],
         occasions: [],
         isSurprise: false
@@ -33,12 +32,6 @@ const AddProduct = () => {
             [name]: type === 'checkbox' ? checked : value
         }));
 
-        if (name === 'productQuantity') {
-            setProductDetails(prevDetails => ({
-                ...prevDetails,
-                productQuantity: parseInt(value)
-            }));
-        }
     };
 
 
@@ -206,15 +199,6 @@ const AddProduct = () => {
                     <option value='flori-cutii'>Flori în cutii</option>
                     <option value='flori-criogenate'>Flori criogenate</option>
                 </select>
-                <p>Cantitate produs</p>
-                <input 
-                    value={productDetails.productQuantity} 
-                    onChange={changeHandler} 
-                    type='number' 
-                    name='productQuantity' 
-                    placeholder='Type here'
-                    min="0" 
-                />
             </div>
             <div className='addproduct-itemfield upload-field'>
                 <label htmlFor="file-input">

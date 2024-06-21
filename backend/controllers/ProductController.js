@@ -12,7 +12,7 @@ const addProduct = async (req, res) => {
     } else {
         id = 1;
     }
-    const { name, image, category, price, discountedPrice, productQuantity, flowers, occasions, isSurprise } = req.body;
+    const { name, image, category, price, discountedPrice, flowers, occasions, isSurprise } = req.body;
 
     const productFields = {
         id,
@@ -20,7 +20,6 @@ const addProduct = async (req, res) => {
         image,
         category,
         price,
-        productQuantity
     };
 
     if (discountedPrice) {
@@ -77,12 +76,12 @@ const getAllProducts = async (req, res) => {
 };
 
 const updateProduct = async (req, res) => {
-    const { id, name, price, discountedPrice, category, productQuantity, image } = req.body;
+    const { id, name, price, discountedPrice, category, image } = req.body;
 
     try {
         await Product.findOneAndUpdate(
             { id: id },
-            { name, price, discountedPrice, category, productQuantity, image }
+            { name, price, discountedPrice, category, image }
         );
         res.json({ success: true });
     } catch (error) {
