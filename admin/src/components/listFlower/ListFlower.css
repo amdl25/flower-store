@@ -43,15 +43,6 @@
     padding-left: 0;
 }
 
-.view-more-btn {
-    background: none;
-    border: none;
-    color: #007bff;
-    cursor: pointer;
-    text-decoration: underline;
-    font-size: 14px;
-    margin-left: 5px;
-}
 
 .listflower-actions {
     display: flex;
@@ -133,6 +124,22 @@
     background-color: #007bff;
     color: white;
     cursor: pointer;
+}
+
+.view-more {
+    background-color:#007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-decoration: none;
+    margin-left: 5px;
+}
+
+.view-more:hover {
+    background-color: #0056b3;
 }
 
 @media(max-width:800px) {

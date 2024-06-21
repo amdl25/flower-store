@@ -120,14 +120,24 @@
 .product-item {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
+    align-items: flex-start;
+    margin-bottom: 15px;
+    padding: 15px;
+    border-bottom: 1px solid #ddd;
 }
 
 .product-image {
-    width: 100px;
-    height: 100px;
+    width: 80px;
+    height: 80px;
     object-fit: cover;
     border-radius: 5px;
+    margin-right: 10px;
+}
+
+.product-details {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
 }
 
 .product-info {
@@ -163,20 +173,21 @@
 }
 
 .selected-options {
-    background-color: #e9e9e9;
-    padding: 5px;
-    border-radius: 5px;
-    font-size: 14px;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 5px;
-    white-space: nowrap;
+    flex-direction: column;
+    gap: 5px;
 }
 
 .selected-options p {
     margin: 0;
+    padding: 5px;
+    border-radius: 5px;
+    background-color: #e9e9e9;
+    font-size: 14px;
     font-weight: bold;
+    text-align: center;
+    display: inline-block;
+    width: fit-content;
 }
 
 .view-more {
@@ -193,6 +204,62 @@
     color: #0056b3;
 }
 
+.modal {
+    max-width: 80%;
+    width: 500px;
+    margin: auto;
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
+}
+
+.modal-overlay {
+    background: rgba(0, 0, 0, 0.5);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal h2 {
+    margin-top: 0;
+}
+
+.modal button {
+    background-color: #BB2A2A;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin-top: 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.modal button:hover {
+    background-color: #941b1b;
+}
+
+.view-more {
+    background: none;
+    border: none;
+    color: #BB2A2A;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 14px;
+    padding: 0;
+}
+
+.view-more:hover {
+    color: #941b1b;
+}
 
 
 @media (max-width: 800px) {

@@ -118,7 +118,7 @@ const ListMonthlyFlowerSubscription = () => {
                                 {flower.description.length > 30 ? 
                                     <>
                                         {flower.description.substring(0, 30)}...
-                                        <button onClick={() => openModal(flower.description)}>Vezi mai mult</button>
+                                        <button className="view-more" onClick={() => openModal(flower.description)}>Vezi mai mult</button>
                                     </> 
                                     : flower.description}
                             </p>

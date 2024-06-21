@@ -79,7 +79,7 @@ const ListFlower = () => {
                             <div className="colors">
                                 {flower.colors.slice(0, 3).join(', ')}
                                 {flower.colors.length > 3 && '... '}
-                                {flower.colors.length > 3 && <button className="view-more-btn" onClick={() => openModal(flower.colors)}>Vezi mai mult</button>}
+                                {flower.colors.length > 3 && <button className="view-more" onClick={() => openModal(flower.colors)}>Vezi mai mult</button>}
                             </div>
                             <p className="quantity">{flower.quantity}</p>
                             <div className="listflower-actions">

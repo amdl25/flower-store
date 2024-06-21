@@ -234,19 +234,6 @@ const Profil = ({ userData, setIsAuthenticated, updateUserData }) => {
                                                     <p><strong>Data Livrării:</strong> {formatDate(product.date)}</p>
                                                     <p><strong>Ora Livrării:</strong> {product.time}</p>
                                                 </div>
-                                                {product.greetingMessage && (
-                                                    <div className="greeting-message">
-                                                        <strong>Mesaj Felicitare:</strong> 
-                                                        {product.greetingMessage.length > 20 ? (
-                                                            <>
-                                                                {product.greetingMessage.substring(0, 20)}...
-                                                                <button className="view-more" onClick={() => openModal(product.greetingMessage)}>View More</button>
-                                                            </>
-                                                        ) : (
-                                                            <span>{product.greetingMessage}</span>
-                                                        )}
-                                                    </div>
-                                                )}
                                                 {product.selectedOptions && (
                                                     <div className="selected-options">
                                                         {product.selectedOptions.greetingCard && (
@@ -254,6 +241,19 @@ const Profil = ({ userData, setIsAuthenticated, updateUserData }) => {
                                                         )}
                                                         {product.selectedOptions.chocolateBox && (
                                                             <p><strong>Cutie de Ciocolată Inclusă</strong></p>
+                                                        )}
+                                                    </div>
+                                                )}
+                                                {product.greetingMessage && (
+                                                    <div className="greeting-message">
+                                                        <strong>Mesaj Felicitare:</strong> 
+                                                        {product.greetingMessage.length > 20 ? (
+                                                            <>
+                                                                {product.greetingMessage.substring(0, 20)}...
+                                                                <button className="view-more" onClick={() => openModal(product.greetingMessage)}>Vezi mai mult</button>
+                                                            </>
+                                                        ) : (
+                                                            <span>{product.greetingMessage}</span>
                                                         )}
                                                     </div>
                                                 )}
