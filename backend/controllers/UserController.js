@@ -88,7 +88,8 @@ const getUserProfile = async (req, res) => {
                 name: user.name,
                 email: user.email,
                 address: user.address,
-                passwordLength: estimatedPasswordLength
+                passwordLength: estimatedPasswordLength,
+                date: user.date
             }
         });
     } catch (err) {
@@ -96,6 +97,7 @@ const getUserProfile = async (req, res) => {
         res.status(500).json({ success: false, error: 'Invalid token' });
     }
 };
+
 
 const deleteUserProfile = async (req, res) => {
     try {

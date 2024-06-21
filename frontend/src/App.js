@@ -12,12 +12,15 @@ import Search from './pages/search/Search';
 import DespreNoi from './pages/despreNoi/DespreNoi';
 import LoginSignup from './pages/loginSignup/LoginSignup';
 import Checkout from './pages/checkout/Checkout';
-import OrderSuccess from './pages/orderSuccess/OrderSuccess'
+import OrderSuccess from './pages/orderSuccess/OrderSuccess';
 import PaymentMock from './pages/paymentMock/PaymentMock';
+import PromoDisplay from './components/promoDisplay/PromoDisplay';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userData, setUserData] = useState({});
+  const [promoCodes, setPromoCodes] = useState([]);
+  const [showPromoDisplay, setShowPromoDisplay] = useState(false);
 
   const handleLogin = (userData) => {
     setIsAuthenticated(true);
@@ -34,6 +37,7 @@ function App() {
   };
 
   useEffect(() => {
+    console.log('useEffect executed in App.js');
     const token = localStorage.getItem('auth-token');
     if (token) {
       fetch('http://localhost:4000/api/user/profile', {
@@ -48,6 +52,56 @@ function App() {
         if (data.success) {
           setIsAuthenticated(true);
           setUserData(data.user);
+
+          fetch('http://localhost:4000/api/orders/userorders', {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`
+            }
+          })
+          .then(res => res.json())
+          .then(orderData => {
+            if (orderData.success) {
+              const orders = orderData.orders;
+              const orderCount = orders.length;
+
+              const today = new Date();
+              const joinDate = new Date(data.user.date);
+              const daysSinceJoined = Math.floor((today - joinDate) / (1000 * 60 * 60 * 24));
+
+              if (daysSinceJoined <= 7) {
+                console.log('User is new, checking for promo codes...');
+                fetch('http://localhost:4000/api/promocodes/criteria/user_nou')
+                  .then(res => res.json())
+                  .then(promoCodes => {
+                    console.log('Promo codes for new user fetched:', promoCodes);
+                    if (promoCodes.length > 0) {
+                      setPromoCodes(promoCodes);
+                      setShowPromoDisplay(true);
+                    }
+                  })
+                  .catch(error => console.error('Error fetching promo codes for new user:', error));
+              }
+
+              if (orderCount >= 2) {
+                console.log('User is a loyal customer, checking for promo codes...');
+                fetch('http://localhost:4000/api/promocodes/criteria/loyal_customer')
+                  .then(res => res.json())
+                  .then(promoCodes => {
+                    console.log('Promo codes for loyal customers fetched:', promoCodes);
+                    if (promoCodes.length > 0) {
+                      setPromoCodes(promoCodes);
+                      setShowPromoDisplay(true);
+                    }
+                  })
+                  .catch(error => console.error('Error fetching promo codes for loyal customers:', error));
+              }
+            } else {
+              console.error('Failed to fetch orders:', orderData.message);
+            }
+          })
+          .catch(error => console.error('Error fetching orders:', error));
         } else {
           setIsAuthenticated(false);
         }
@@ -57,6 +111,8 @@ function App() {
       });
     }
   }, []);
+  
+
 
   return (
     <div>
@@ -76,12 +132,19 @@ function App() {
           <Route path="/login" element={<LoginSignup onLogin={handleLogin} onSignup={handleSignup} isAuthenticated={isAuthenticated} />} />
           <Route path="/profil" element={isAuthenticated ? <Profil userData={userData} setIsAuthenticated={setIsAuthenticated} updateUserData={updateUserData} /> : <Navigate to="/login" />} />
           <Route path="/search" element={<Search />} />
-          <Route path="/checkout" element = {<Checkout/>}/>
+          <Route path="/checkout" element={<Checkout />} />
           <Route path="/order-success" element={<OrderSuccess />} />
           <Route path="/payment" element={<PaymentMock />} />
         </Routes>
         <Footer />
       </BrowserRouter>
+      {showPromoDisplay && promoCodes.length > 0 && (
+        <>
+          {promoCodes.map((promo, index) => (
+            <PromoDisplay key={index} promoCode={promo} onClose={() => setShowPromoDisplay(false)} />
+          ))}
+        </>
+      )}
     </div>
   );
 }

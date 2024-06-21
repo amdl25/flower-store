@@ -78,6 +78,7 @@ const ListPromoCode = () => {
                 <p>Limită utilizare</p>
                 <p>Nr de utilizări</p>
                 <p>Activ</p>
+                <p>Criterii</p>
                 <p>Acțiuni</p>
             </div>
             <div className="listpromocode-allpromocodes">
@@ -92,6 +93,7 @@ const ListPromoCode = () => {
                             <p>{promoCode.usageLimit}</p>
                             <p>{promoCode.usageCount}</p>
                             <p>{promoCode.isActive ? 'Da' : 'Nu'}</p>
+                            <p>{promoCode.criteria || 'N/A'}</p>
                             <div className="listpromocode-actions">
                                 <button onClick={() => handleEdit(promoCode)} className='edit-button'>Modifică</button>
                                 <img onClick={() => { removePromoCode(promoCode.id) }} className='listpromocode-remove-icon' src={cross_icon} alt="Remove" />
@@ -157,6 +159,13 @@ const ListPromoCode = () => {
                                 <option value="yes">Da</option>
                                 <option value="no">Nu</option>
                             </select>
+                            <label>Criterii aplicare:</label>
+                            <input
+                                type="text"
+                                value={editingPromoCode.criteria}
+                                onChange={(e) => setEditingPromoCode({ ...editingPromoCode, criteria: e.target.value })}
+                                placeholder="Introduceți criteriile, separate prin virgulă"
+                            />
                             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                                 <button type="submit">Salvare</button>
                                 <button type="button" onClick={() => setEditingPromoCode(null)}>Anulare</button>

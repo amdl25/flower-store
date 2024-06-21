@@ -11,7 +11,7 @@ const addPromoCode = async (req, res) => {
     } else {
         id = 1;
     }
-    const { code, discountType, discountValue, expirationDate, usageLimit } = req.body;
+    const { code, discountType, discountValue, expirationDate, usageLimit, criteria} = req.body;
     try {
         const promoCode = new PromoCode({
             id,
@@ -19,7 +19,8 @@ const addPromoCode = async (req, res) => {
             discountType,
             discountValue,
             expirationDate,
-            usageLimit
+            usageLimit,
+            criteria
         });
         await promoCode.save();
         res.json({ success: true, id: promoCode.id,  code: promoCode.code });
@@ -97,7 +98,7 @@ const removePromoCode = async (req, res) => {
 
 
 const updatePromoCode = async (req, res) => {
-    const { id, code, discountType, discountValue, expirationDate, usageLimit, usageCount, isActive } = req.body;
+    const { id, code, discountType, discountValue, expirationDate, usageLimit, usageCount, isActive, criteria} = req.body;
 
     console.log('Update Promo Code request received:', req.body);
 
@@ -112,7 +113,8 @@ const updatePromoCode = async (req, res) => {
                 expirationDate,
                 usageLimit,
                 usageCount,
-                isActive
+                isActive, 
+                criteria
             },
             { new: true }
         );
@@ -128,11 +130,16 @@ const updatePromoCode = async (req, res) => {
     }
 };
 
-module.exports = {
-    updatePromoCode
+const getPromoCodesByCriteria = async (req, res) => {
+    try {
+        const { criteria } = req.params;
+        const promoCodes = await PromoCode.find({ criteria });
+        res.json(promoCodes);
+    } catch (error) {
+        console.error('Error fetching promo codes by criteria:', error);
+        res.status(500).json({ message: 'Server error' });
+    }
 };
-
-
 
 
 module.exports = {
@@ -141,5 +148,6 @@ module.exports = {
     usePromoCode,
     getAllPromoCodes,
     removePromoCode,
-    updatePromoCode
+    updatePromoCode,
+    getPromoCodesByCriteria
 };

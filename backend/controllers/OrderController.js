@@ -86,7 +86,24 @@ const getUserOrders = async (req, res) => {
     }
 };
 
+const getUserOrderCount = async (req, res) => {
+    try {
+        const { email } = req.params;
+        const orderCount = await Order.countDocuments({ email: email });
+        
+        if (orderCount >= 0) {
+            res.json({ success: true, orderCount });
+        } else {
+            res.status(404).json({ success: false, message: 'No orders found for the given user.' });
+        }
+    } catch (error) {
+        console.error('Error fetching order count:', error);
+        res.status(500).json({ success: false, message: 'Server error' });
+    }
+};
+
 module.exports = {
     addOrder,
-    getUserOrders
+    getUserOrders,
+    getUserOrderCount
 };

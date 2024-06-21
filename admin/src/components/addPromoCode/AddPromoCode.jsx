@@ -7,7 +7,8 @@ const AddPromoCode = () => {
         discountType: 'procent',
         discountValue: '',
         expirationDate: '',
-        usageLimit: 1
+        usageLimit: 1,
+         criteria: ''
     });
 
     const handleChange = (e) => {
@@ -37,7 +38,8 @@ const AddPromoCode = () => {
                     discountType: 'procent',
                     discountValue: '',
                     expirationDate: '',
-                    usageLimit: 1
+                    usageLimit: 1,
+                    criteria: ''
                 });
             } else {
                 console.error('Error adding promo code:', data.error);
@@ -104,6 +106,21 @@ const AddPromoCode = () => {
                         required
                         min="1"
                     />
+                </div>
+                <div className="addpromocode-itemfield">
+                    <label>Criterii aplicare</label>
+                    <select
+                        name="criteria"
+                        value={promoCodeData.criteria}
+                        onChange={(e) => setPromoCodeData({ ...promoCodeData, criteria: e.target.value })}
+                        required
+                    >
+                        <option value="">Selectează criteriul</option>
+                        <option value="user_nou">Utilizator Nou</option>
+                        <option value="loyal_customer">Client Loial (Peste 5 comenzi)</option>
+                        <option value="special_event">Eveniment Special</option>
+                        <option value="seasonal_offer">Ofertă de Sezon</option>
+                    </select>
                 </div>
                 <button type="submit" className="addpromocode-btn">Adaugă cod promo</button>
             </form>

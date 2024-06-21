@@ -39,6 +39,10 @@ const PromoCode = mongoose.model('PromoCode', {
     createdAt: {
         type: Date,
         default: Date.now
+    },
+    criteria: {
+        type: String,
+        required: true
     }
 });
 
