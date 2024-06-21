@@ -4,7 +4,7 @@ import './AddPromoCode.css';
 const AddPromoCode = () => {
     const [promoCodeData, setPromoCodeData] = useState({
         code: '',
-        discountType: 'percentage',
+        discountType: 'procent',
         discountValue: '',
         expirationDate: '',
         usageLimit: 1
@@ -34,7 +34,7 @@ const AddPromoCode = () => {
                 alert('Promo code added successfully');
                 setPromoCodeData({
                     code: '',
-                    discountType: 'percentage',
+                    discountType: 'procent',
                     discountValue: '',
                     expirationDate: '',
                     usageLimit: 1
@@ -71,7 +71,7 @@ const AddPromoCode = () => {
                         required
                     >
                         <option value="procent">Procent</option>
-                        <option value="suma fixa">Sumă fixă</option>
+                        <option value="sumă fixă">Sumă fixă</option>
                     </select>
                 </div>
                 <div className="addpromocode-itemfield">

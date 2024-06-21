@@ -13,7 +13,7 @@ const PromoCode = mongoose.model('PromoCode', {
     },
     discountType: {
         type: String,
-        enum: ['percentage', 'fixed'],
+        enum: ['procent', 'sumă fixă'],
         required: true
     },
     discountValue: {

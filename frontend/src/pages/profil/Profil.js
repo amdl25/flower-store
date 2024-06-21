@@ -278,7 +278,7 @@ const Profil = ({ userData, setIsAuthenticated, updateUserData }) => {
             >
                 <h2>Mesaj Felicitare</h2>
                 <p>{selectedMessage}</p>
-                <button onClick={closeModal}>Close</button>
+                <button onClick={closeModal}>Înapoi</button>
             </Modal>
         </div>
     );

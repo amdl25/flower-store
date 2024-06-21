@@ -7,7 +7,7 @@ router.post('/validatepromocode', validatePromoCode);
 router.post('/usepromocode', usePromoCode);
 router.get('/allpromocodes', getAllPromoCodes);
 router.put('/updatepromocode', updatePromoCode);
-router.delete('/removepromocode/:id', removePromoCode);
+router.post('/removepromocode', removePromoCode);
 
 
 

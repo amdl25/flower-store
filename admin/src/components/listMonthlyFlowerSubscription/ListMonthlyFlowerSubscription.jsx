@@ -21,7 +21,7 @@ const ListMonthlyFlowerSubscription = () => {
     }, []);
 
     const removeMonthlyFlower = async (id) => {
-        await fetch(`http://localhost:4000/api/monthlyflowersubscriptions/removemonthlyflowersubscription'`, {
+        await fetch('http://localhost:4000/api/monthlyflowersubscriptions/removemonthlyflowersubscription', {
             method: 'POST',
             headers: {
                 Accept: 'application/json',

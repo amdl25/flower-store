@@ -21,19 +21,29 @@ const ListPromoCode = () => {
     }, []);
 
     const removePromoCode = async (id) => {
+        console.log(`Attempting to delete promo code with ID: ${id}`);
         try {
-            await fetch(`http://localhost:4000/api/promocodes/removepromocode/${id}`, {
-                method: 'DELETE',
+            const response = await fetch(`http://localhost:4000/api/promocodes/removepromocode`, {
+                method: 'POST',
                 headers: {
                     Accept: 'application/json',
                     'Content-Type': 'application/json'
-                }
+                },
+                body: JSON.stringify({ id: id })
             });
-            fetchPromoCodes();
+            await fetchPromoCodes();
+    
+            if (response.ok) {
+                console.log(`Promo code with ID: ${id} deleted successfully.`);
+                fetchPromoCodes();
+            } else {
+                console.error(`Failed to delete promo code with ID: ${id}. Status: ${response.status}`);
+            }
         } catch (error) {
             console.error('Error removing promo code:', error);
         }
     };
+    
 
     const handleEdit = (promoCode) => {
         setEditingPromoCode(promoCode);
@@ -84,7 +94,7 @@ const ListPromoCode = () => {
                             <p>{promoCode.isActive ? 'Da' : 'Nu'}</p>
                             <div className="listpromocode-actions">
                                 <button onClick={() => handleEdit(promoCode)} className='edit-button'>Modifică</button>
-                                <img onClick={() => { removePromoCode(promoCode._id) }} className='listpromocode-remove-icon' src={cross_icon} alt="Remove" />
+                                <img onClick={() => { removePromoCode(promoCode.id) }} className='listpromocode-remove-icon' src={cross_icon} alt="Remove" />
                             </div>
                         </div>
                         <hr />
