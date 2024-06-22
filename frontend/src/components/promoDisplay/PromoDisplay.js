@@ -3,15 +3,33 @@ import './PromoDisplay.css';
 
 const PromoDisplay = ({ promoCodes = [], isMinimized, onToggle, isAuthenticated }) => {
   const [isVisible, setIsVisible] = useState(true);
+  const [userEmail, setUserEmail] = useState(null);
 
   useEffect(() => {
     if (promoCodes.length > 0) {
       setIsVisible(true);
     }
+
+    const storedEmail = localStorage.getItem('user-email');
+    if (storedEmail) {
+      setUserEmail(storedEmail.replace(/\./g, '_'));
+    }
   }, [promoCodes]);
+
+  const hasExceededUsageLimit = (promoCode) => {
+    if (userEmail && promoCode.usageHistory) {
+      const usageCount = promoCode.usageHistory[userEmail] || 0;
+      return usageCount >= promoCode.usageLimit;
+    }
+    return false;
+  };
 
   const renderPromoCode = (promoCode) => {
     if (!promoCode) return null;
+
+    if (isAuthenticated && hasExceededUsageLimit(promoCode)) {
+      return null;
+    }
 
     if (!isAuthenticated) {
       if (promoCode.criteria === 'user_nou') {
@@ -20,7 +38,7 @@ const PromoDisplay = ({ promoCodes = [], isMinimized, onToggle, isAuthenticated 
             <p>Crează-ți cont pentru a beneficia de {promoCode.discountValue}{promoCode.discountType === 'procent' ? '%' : ' lei'} reducere la următoarea comandă.</p>
           </div>
         );
-      } 
+      }
     }
 
     if (isAuthenticated) {
@@ -44,7 +62,7 @@ const PromoDisplay = ({ promoCodes = [], isMinimized, onToggle, isAuthenticated 
               <p>Nu ești eligibil pentru această ofertă. Devii eligibil ca utilizator nou în primele 7 zile de la înregistrare.</p>
             </div>
           );
-        } 
+        }
       }
     }
 
