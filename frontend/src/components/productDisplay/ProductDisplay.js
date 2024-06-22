@@ -188,16 +188,18 @@ const ProductDisplay = (props) => {
                     </div>
                 </div>
 
-                <div className='productdisplay-right-message'>
-                    <h1>Text pentru felicitare</h1>
-                    <input 
-                        type="text" 
-                        placeholder="" 
-                        className="greeting-message" 
-                        value={greetingMessage}
-                        onChange={handleGreetingMessageChange}
-                    />
-                </div>
+                {selectedOptions.greetingCard && (
+                    <div className='productdisplay-right-message'>
+                        <h1>Text pentru felicitare</h1>
+                        <input 
+                            type="text" 
+                            placeholder="" 
+                            className="greeting-message" 
+                            value={greetingMessage}
+                            onChange={handleGreetingMessageChange}
+                        />
+                    </div>
+                )}
                 
                 <div className='productdisplay-right-delivery-container'>
                     <div className="productdisplay-right-delivery">
