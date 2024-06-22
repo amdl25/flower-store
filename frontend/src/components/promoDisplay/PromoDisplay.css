@@ -4,28 +4,40 @@
     right: 20px;
     z-index: 1000;
     max-width: 300px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  }
-  
-  .promo-display {
     background-color: #fff;
-    padding: 15px;
-    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
     display: flex;
     flex-direction: column;
     align-items: center;
-  }
-  
-  .promo-close-btn {
-    align-self: flex-end;
+    overflow-y: auto;
+}
+
+.promo-minimized {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.promo-toggle-btn,
+.promo-minimize-btn,
+.promo-close-btn {
     background: none;
     border: none;
-    font-size: 16px;
     cursor: pointer;
-  }
-  
-  .promo-reopen-btn {
+    font-size: 20px;
+    margin: 0;
+    padding: 0;
+}
+
+.promo-minimize-btn,
+.promo-close-btn {
+    align-self: flex-end;
+}
+
+.promo-reopen-btn {
     position: fixed;
     bottom: 20px;
     right: 20px;
@@ -37,9 +49,54 @@
     font-size: 16px;
     cursor: pointer;
     z-index: 1000;
+}
+
+.promo-reopen-btn:hover {
+    background-color: #0056b3;
+}
+
+.promo-display-wrapper {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
   }
   
-  .promo-reopen-btn:hover {
-    background-color: #0056b3;
+  .promo-code-container {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    max-width: 300px;
+  }
+  
+  .promo-code-header h2 {
+    margin: 0;
+  }
+  
+  .promo-minimized {
+    cursor: pointer;
+    background-color: #f8f9fa;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 50%;
+  }
+  
+  .promo-toggle-btn,
+  .promo-minimize-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .promo-minimize-btn {
+    align-self: flex-end;
   }
   
