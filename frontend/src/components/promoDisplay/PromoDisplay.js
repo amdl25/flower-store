@@ -1,17 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import './PromoDisplay.css';
 
-const PromoDisplay = ({ promoCodes, isMinimized, onToggle }) => {
-  const [isVisible, setIsVisible] = useState(true);
-
+const PromoDisplay = ({ promoCodes = [], isMinimized, onToggle }) => {
   useEffect(() => {
-    if (promoCodes && promoCodes.length > 0) {
-      setIsVisible(true);
-    }
+    console.log('PromoDisplay mounted with promoCodes:', promoCodes);
   }, [promoCodes]);
+
+  const handleToggle = () => {
+    console.log('Toggling promo display');
+    onToggle();
+  };
 
   const renderPromoCode = (promoCode) => {
     if (!promoCode) return null;
+
+    console.log('Rendering promo code:', promoCode);
 
     return (
       <div key={promoCode._id} className="promo-code-container">
@@ -28,20 +31,24 @@ const PromoDisplay = ({ promoCodes, isMinimized, onToggle }) => {
   };
 
   return (
-    isVisible && (
-      <div className="promo-display-wrapper">
-        {isMinimized ? (
-          <div className="promo-minimized" onClick={onToggle}>
-            <button className="promo-toggle-btn">&lt;</button>
-          </div>
-        ) : (
-          <>
-            {promoCodes.map(promoCode => renderPromoCode(promoCode))}
-            <button className="promo-minimize-btn" onClick={onToggle}>X</button>
-          </>
-        )}
-      </div>
-    )
+    <div className="promo-display-wrapper">
+      {isMinimized ? (
+        <div className="promo-minimized" onClick={handleToggle}>
+          <button className="promo-toggle-btn">&lt;</button>
+        </div>
+      ) : (
+        <div className="promo-display">
+          {promoCodes.length > 0 ? (
+            promoCodes.map(promoCode => renderPromoCode(promoCode))
+          ) : (
+            <div className="no-promo-codes">
+              <p>Nu există coduri promoționale disponibile în acest moment.</p>
+            </div>
+          )}
+          <button className="promo-minimize-btn" onClick={handleToggle}>X</button>
+        </div>
+      )}
+    </div>
   );
 };
 
