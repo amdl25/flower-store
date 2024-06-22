@@ -74,9 +74,6 @@ function App() {
             ? 'Plasează 5 comenzi pentru a beneficia de această ofertă.'
             : '',
         };
-      case 'special_event':
-      case 'seasonal_offer':
-        return { ...promoCode, isEligible: true, motivationMessage: '' };
       default:
         return { ...promoCode, isEligible: true, motivationMessage: '' };
     }

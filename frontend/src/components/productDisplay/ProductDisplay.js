@@ -6,6 +6,8 @@ import greeting_card from '../../components/images/greeting_card.png';
 import chocolate_box from '../../components/images/chocolate_box.png';
 import 'react-datepicker/dist/react-datepicker.css';
 import './DateTimePicker.css';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const ProductDisplay = (props) => {
     const { produs } = props;
@@ -103,6 +105,16 @@ const ProductDisplay = (props) => {
                 if (data.success) {
                     console.log('Product added to cart:', data.cart);
                     addToCart(productDetails);
+                    toast.success('Produsul a fost adăugat în coș!', {
+                        position: "top-right",
+                        autoClose: 3000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        className: 'custom-toast'
+                    });
                 } else {
                     console.error('Failed to add product to cart:', data.message);
                 }
@@ -212,6 +224,7 @@ const ProductDisplay = (props) => {
                 {showWarning && (
                     <p className='warning'>Vă rugăm să selectați data și ora livrării. Dacă alegeți opțiunea de felicitare, completați și textul pentru felicitare.</p>
                 )}
+                <ToastContainer />
             </div>
         </div>
     );

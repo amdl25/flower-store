@@ -47,10 +47,8 @@ const PromoDisplay = ({ promoCodes = [], isMinimized, onToggle, isAuthenticated 
           <div key={promoCode._id} className="promo-code-container eligible">
             <div className="promo-code-header">
               {promoCode.criteria === 'user_nou' && <h2>Bun venit!</h2>}
-              {promoCode.criteria === 'client_fidel' && <h2>Bun venit, client fidel!</h2>}
-              {promoCode.criteria === 'special_event' && <h2>Eveniment Special!</h2>}
-              {promoCode.criteria === 'seasonal_offer' && <h2>Ofertă de Sezon!</h2>}
-              {!['user_nou', 'client_fidel', 'special_event', 'seasonal_offer'].includes(promoCode.criteria) && <h2>Bun venit!</h2>}
+              {promoCode.criteria === 'client_fidel' && <h2>Bun venit!</h2>}
+              {!['user_nou', 'client_fidel'].includes(promoCode.criteria) && <h2>Bun venit!</h2>}
             </div>
             <p>Folosiți codul de reducere <strong>{promoCode.code}</strong> pentru o reducere de {promoCode.discountValue}{promoCode.discountType === 'procent' ? '%' : ' lei'}.</p>
           </div>

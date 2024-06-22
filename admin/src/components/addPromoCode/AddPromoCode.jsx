@@ -118,8 +118,6 @@ const AddPromoCode = () => {
                         <option value="">Selectează criteriul</option>
                         <option value="user_nou">Utilizator Nou</option>
                         <option value="loyal_customer">Client Loial (Peste 5 comenzi)</option>
-                        <option value="special_event">Eveniment Special</option>
-                        <option value="seasonal_offer">Ofertă de Sezon</option>
                     </select>
                 </div>
                 <button type="submit" className="addpromocode-btn">Adaugă cod promo</button>
