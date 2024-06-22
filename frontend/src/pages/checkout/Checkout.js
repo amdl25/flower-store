@@ -4,7 +4,7 @@ import { ShopContext } from '../../context/ShopContext';
 import { useNavigate } from 'react-router-dom';
 
 const Checkout = () => {
-    const { cartItems, all_product, getTotalCartAmount, clearCart } = useContext(ShopContext);
+    const { cartItems, all_product, getTotalCartAmount, clearCart, promoCode } = useContext(ShopContext);
     const [formData, setFormData] = useState({
         name: '',
         address: '',
@@ -19,7 +19,8 @@ const Checkout = () => {
     useEffect(() => {
         console.log('Cart Items:', cartItems);
         console.log('All Products:', all_product);
-    }, [cartItems, all_product]);
+        console.log('Applied Promo Code:', promoCode);
+    }, [cartItems, all_product, promoCode]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -59,7 +60,8 @@ const Checkout = () => {
             paymentMethod: formData.paymentMethod,
             deliveryMethod: formData.deliveryMethod,
             products: productsInCart,
-            totalAmount: getTotalCartAmount()
+            totalAmount: getTotalCartAmount(),
+            promoCode: promoCode ? promoCode.code : null
         };
 
         if (formData.deliveryMethod === 'livrare') {

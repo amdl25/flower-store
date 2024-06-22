@@ -32,6 +32,11 @@ const PromoCode = mongoose.model('PromoCode', {
         type: Number,
         default: 0
     },
+    usageHistory: {
+        type: Map,
+        of: Number,
+        default: {}
+    },
     isActive: {
         type: Boolean,
         default: true

@@ -76,7 +76,6 @@ const ListPromoCode = () => {
                 <p>Valoare</p>
                 <p>Dată expirare</p>
                 <p>Limită utilizare</p>
-                <p>Nr de utilizări</p>
                 <p>Activ</p>
                 <p>Criterii</p>
                 <p>Acțiuni</p>
@@ -91,7 +90,6 @@ const ListPromoCode = () => {
                             <p>{promoCode.discountValue}{promoCode.discountType === 'procent' ? '%' : ' lei'}</p>
                             <p>{new Date(promoCode.expirationDate).toLocaleDateString()}</p>
                             <p>{promoCode.usageLimit}</p>
-                            <p>{promoCode.usageCount}</p>
                             <p>{promoCode.isActive ? 'Da' : 'Nu'}</p>
                             <p>{promoCode.criteria || 'N/A'}</p>
                             <div className="listpromocode-actions">
@@ -145,12 +143,6 @@ const ListPromoCode = () => {
                                 value={editingPromoCode.usageLimit}
                                 onChange={(e) => setEditingPromoCode({ ...editingPromoCode, usageLimit: parseInt(e.target.value) })}
                             />
-                            <label>Nr de utilizări:</label>
-                            <input
-                                type="number"
-                                value={editingPromoCode.usageCount}
-                                onChange={(e) => setEditingPromoCode({ ...editingPromoCode, usageCount: parseInt(e.target.value) })}
-                            />
                             <label>Activ:</label>
                             <select
                                 value={editingPromoCode.isActive ? 'yes' : 'no'}
@@ -160,12 +152,16 @@ const ListPromoCode = () => {
                                 <option value="no">Nu</option>
                             </select>
                             <label>Criterii aplicare:</label>
-                            <input
-                                type="text"
+                            <select
                                 value={editingPromoCode.criteria}
                                 onChange={(e) => setEditingPromoCode({ ...editingPromoCode, criteria: e.target.value })}
-                                placeholder="Introduceți criteriile, separate prin virgulă"
-                            />
+                            >
+                                <option value="">Selectează criteriul</option>
+                                <option value="user_nou">Utilizator Nou</option>
+                                <option value="loyal_customer">Client Loial (Peste 5 comenzi)</option>
+                                <option value="special_event">Eveniment Special</option>
+                                <option value="seasonal_offer">Ofertă de Sezon</option>
+                            </select>
                             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                                 <button type="submit">Salvare</button>
                                 <button type="button" onClick={() => setEditingPromoCode(null)}>Anulare</button>

@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect } from 'react';
+import React, { createContext, useState, useEffect, useCallback } from 'react';
 
 export const ShopContext = createContext(null);
 
@@ -10,6 +10,8 @@ const ShopContextProvider = (props) => {
     const [all_product, setAll_Product] = useState([]);
     const [cartItems, setCartItems] = useState(getDefaultCart());
     const [loading, setLoading] = useState(true);
+    const [promoCode, setPromoCode] = useState(null);
+    const [discountAmount, setDiscountAmount] = useState(0);
 
     useEffect(() => {
         const fetchCartData = async () => {
@@ -54,7 +56,24 @@ const ShopContextProvider = (props) => {
         fetchProducts();
         fetchCartData();
     }, []);
+
+    const applyPromoCode = (promo) => {
+        setPromoCode(promo);
+        let discount = 0;
+        if (promo.discountType === 'procent') {
+            discount = (getTotalCartAmount() * promo.discountValue) / 100;
+        } else if (promo.discountType === 'sumă fixă') {
+            discount = promo.discountValue;
+        }
+        setDiscountAmount(discount);
+        console.log('Promo Code Applied in Context:', promo);
+    };
     
+    const clearPromoCode = () => {
+        setPromoCode(null);
+        setDiscountAmount(0);
+        console.log('Promo Code Cleared in Context');
+    };
 
     const addToCart = (productDetails) => {
         setCartItems((prev) => ({
@@ -69,7 +88,7 @@ const ShopContextProvider = (props) => {
                 additionalCost: productDetails.additionalCost
             }
         }));
-    
+
         const token = localStorage.getItem('auth-token');
     
         if (token) {
@@ -97,7 +116,6 @@ const ShopContextProvider = (props) => {
                 .catch((error) => console.error('Error adding to cart:', error));
         } else {
             let cart = JSON.parse(localStorage.getItem('cart')) || {};
-    
             const { productId } = productDetails;
     
             if (cart[productId]) {
@@ -113,9 +131,6 @@ const ShopContextProvider = (props) => {
             console.log('Product added to local cart:', cart);
         }
     };
-    
-        
-    
 
     const removeFromCart = (itemId) => {
         setCartItems((prev) => {
@@ -153,7 +168,6 @@ const ShopContextProvider = (props) => {
             console.error('No token available. User might not be authenticated.');
         }
     };
-    
 
     const clearCart = () => {
         setCartItems(getDefaultCart());
@@ -166,18 +180,7 @@ const ShopContextProvider = (props) => {
         console.log("Logged out and cleared cart");
     };
 
-    const getTotalCartItems = () => {
-        let totalItem = 0;
-        for(const itemId in cartItems) {
-            if(cartItems[itemId]?.quantity > 0) {
-                totalItem += cartItems[itemId].quantity;
-            }
-        }
-        console.log('Total items in cart:', totalItem);
-        return totalItem;
-    };
-    
-    const getTotalCartAmount = () => {
+    const getTotalCartAmount = useCallback(() => {
         let totalAmount = 0;
         for (const itemId in cartItems) {
             if (cartItems[itemId]?.quantity > 0) {
@@ -190,8 +193,18 @@ const ShopContextProvider = (props) => {
             }
         }
         return totalAmount;
-    };
+    }, [cartItems, all_product]);
     
+    const getTotalCartItems = useCallback(() => {
+        let totalItem = 0;
+        for(const itemId in cartItems) {
+            if(cartItems[itemId]?.quantity > 0) {
+                totalItem += cartItems[itemId].quantity;
+            }
+        }
+        console.log('Total items in cart:', totalItem);
+        return totalItem;
+    }, [cartItems]);
 
     const contextValue = { 
         getTotalCartItems, 
@@ -201,7 +214,10 @@ const ShopContextProvider = (props) => {
         addToCart, 
         removeFromCart,
         clearCart, 
-        logout 
+        logout,
+        applyPromoCode,
+        clearPromoCode,
+        promoCode
     };
 
     return (

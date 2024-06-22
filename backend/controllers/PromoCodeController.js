@@ -30,45 +30,86 @@ const addPromoCode = async (req, res) => {
 };
 
 const validatePromoCode = async (req, res) => {
-    const { code } = req.body;
     try {
-        const promoCode = await PromoCode.findOne({ code });
-        if (!promoCode) {
+        const { code } = req.body;
+        console.log('Validating promo code:', code);
+
+        const promo = await PromoCode.findOne({ code });
+
+        if (!promo) {
             return res.status(404).json({ success: false, error: 'Promo code not found' });
         }
-        if (promoCode.usageCount >= promoCode.usageLimit) {
-            return res.status(400).json({ success: false, error: 'Promo code usage limit reached' });
+
+        const isPromoCodeValid = promo.isActive && new Date() < new Date(promo.expirationDate);
+        if (!isPromoCodeValid) {
+            return res.status(400).json({ success: false, error: 'Promo code is expired or inactive' });
         }
-        if (new Date() > new Date(promoCode.expirationDate)) {
-            return res.status(400).json({ success: false, error: 'Promo code has expired' });
+
+        console.log('Promo Code Details:', {
+            'Usage Count': promo.usageCount,
+            'Usage Limit': promo.usageLimit,
+            'Expiration Date': promo.expirationDate,
+            'Is Active': promo.isActive
+        });
+
+        if (req.user) {
+            const userId = req.user.id;
+            console.log('Validating promo code for user:', userId);
+
+            const userUsageCount = promo.usageHistory.get(userId) || 0;
+
+            if (userUsageCount >= promo.usageLimit) {
+                return res.status(400).json({ success: false, error: 'Promo code usage limit reached for this user' });
+            }
         }
-        if (!promoCode.isActive) {
-            return res.status(400).json({ success: false, error: 'Promo code is not active' });
-        }
-        res.json({ success: true, promoCode });
+
+        res.status(200).json({ success: true, promoCode: promo });
     } catch (error) {
-        res.status(500).json({ success: false, error: error.message });
+        console.error('Error validating promo code:', error);
+        res.status(500).json({ success: false, error: 'Internal server error' });
     }
 };
 
+
+
+
+
+
 const usePromoCode = async (req, res) => {
     const { code } = req.body;
+    const user = req.user;
+
+    if (!user) {
+        return res.status(400).json({ success: false, error: 'User not authenticated' });
+    }
+
     try {
         const promoCode = await PromoCode.findOne({ code });
         if (!promoCode) {
             return res.status(404).json({ success: false, error: 'Promo code not found' });
         }
+
         if (promoCode.usageCount >= promoCode.usageLimit) {
             return res.status(400).json({ success: false, error: 'Promo code usage limit reached' });
         }
+
+        const userUsageCount = promoCode.usageHistory.get(user.id) || 0;
+        if (userUsageCount >= promoCode.usageLimit) {
+            return res.status(400).json({ success: false, error: 'You have reached the usage limit for this promo code' });
+        }
+
         if (new Date() > new Date(promoCode.expirationDate)) {
             return res.status(400).json({ success: false, error: 'Promo code has expired' });
         }
+
         if (!promoCode.isActive) {
             return res.status(400).json({ success: false, error: 'Promo code is not active' });
         }
 
         promoCode.usageCount += 1;
+
+        promoCode.usageHistory.set(user.id, userUsageCount + 1);
+
         await promoCode.save();
 
         res.json({ success: true, promoCode });
@@ -76,6 +117,8 @@ const usePromoCode = async (req, res) => {
         res.status(500).json({ success: false, error: error.message });
     }
 };
+
+
 
 const getAllPromoCodes = async (req, res) => {
     try {

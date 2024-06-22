@@ -5,7 +5,7 @@
 
 .listpromocode-format-main {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1.5fr 1fr 1fr 1fr 2fr 1.5fr;
+    grid-template-columns: 1fr 1fr 1fr 1.5fr 1fr 1fr 1fr 2fr;
     gap: 10px;
     padding: 10px;
     font-weight: 600;
@@ -14,7 +14,7 @@
 
 .listpromocode-format {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1.5fr 1fr 1fr 1fr 2fr 1.5fr;
+    grid-template-columns: 1fr 1fr 1fr 1.5fr 1fr 1fr 1fr 2fr;
     gap: 10px;
     align-items: center;
     font-size: 14px;

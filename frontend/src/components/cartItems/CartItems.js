@@ -7,7 +7,7 @@ import chocolate_box from '../images/chocolate_box.png';
 import greeting_card from '../images/greeting_card.png';
 
 const CartItems = ({ promoCodes = [] }) => {
-    const { getTotalCartAmount, all_product, cartItems, removeFromCart, addToCart } = useContext(ShopContext);
+    const { getTotalCartAmount, all_product, cartItems, removeFromCart, addToCart, clearPromoCode, applyPromoCode: contextApplyPromoCode } = useContext(ShopContext);
     const [promoCode, setPromoCode] = useState('');
     const [discount, setDiscount] = useState(null);
     const [discountAmount, setDiscountAmount] = useState(0);
@@ -15,12 +15,12 @@ const CartItems = ({ promoCodes = [] }) => {
     const [finalTotal, setFinalTotal] = useState(getTotalCartAmount());
     const navigate = useNavigate();
 
-     useEffect(() => {
+    useEffect(() => {
         console.log('Promo Codes in CartItems:', promoCodes);
     }, [promoCodes]);
 
-
     useEffect(() => {
+        console.log('Calculating discount and final total');
         if (discount) {
             let calculatedDiscountAmount = 0;
             if (discount.discountType === 'procent') {
@@ -56,53 +56,43 @@ const CartItems = ({ promoCodes = [] }) => {
             });
         }
     };
-    
 
-    const applyPromoCode = async () => {
+    const handlePromoCodeSubmit = async () => {
         const enteredCode = promoCode.toUpperCase().trim();
-        const promo = promoCodes.find(code => code.code.toUpperCase() === enteredCode);
-        console.log(promo);
-        console.log(enteredCode);
-
-        if (!promo) {
-            setErrorMessage('Cod promoțional invalid.');
-            setDiscount(null);
-            return;
-        }
-
-        if (!promo.isEligible) {
-            setErrorMessage('Nu sunteți eligibil pentru acest cod promoțional.');
-            setDiscount(null);
-            return;
-        }
-
+        console.log('Entered Promo Code:', enteredCode);
+    
         try {
             const response = await fetch('http://localhost:4000/api/promocodes/validatepromocode', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('auth-token')}`
                 },
                 body: JSON.stringify({ code: enteredCode })
             });
-
+    
             const data = await response.json();
             if (data.success) {
                 setDiscount(data.promoCode);
                 setErrorMessage('');
+                contextApplyPromoCode(data.promoCode);
+                console.log('Promo Code Applied:', data.promoCode);
             } else {
                 setErrorMessage(data.error);
                 setDiscount(null);
+                clearPromoCode();
             }
         } catch (error) {
             console.error('Error applying promo code:', error);
             setErrorMessage('A apărut o eroare la aplicarea codului promoțional.');
+            clearPromoCode();
         }
     };
+    
 
     const handleCheckout = () => {
         navigate('/checkout');
     };
-    
 
     return (
         <div className='cartitems'>
@@ -146,7 +136,7 @@ const CartItems = ({ promoCodes = [] }) => {
                                                 )}
                                             </>
                                         ) : (
-                                            <p>-</p> 
+                                            <p>-</p>
                                         )}
                                     </div>
                                     <div className='cartitems-quantity-container'>
@@ -200,7 +190,7 @@ const CartItems = ({ promoCodes = [] }) => {
                             value={promoCode} 
                             onChange={(e) => setPromoCode(e.target.value)}
                         />
-                        <button onClick={applyPromoCode}>Adaugă</button>
+                        <button onClick={handlePromoCodeSubmit}>Adaugă</button>
                     </div>
                     {errorMessage && <p className='promocode-error'>{errorMessage}</p>}
                     {discount && <p className='promocode-success'>Cod de reducere aplicat: {discount.code} - {discount.discountType === 'percentage' ? `${discount.discountValue}%` : `${discount.discountValue} lei`}</p>}
