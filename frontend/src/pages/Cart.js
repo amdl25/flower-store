@@ -1,10 +1,10 @@
 import React from 'react'
 import CartItems from '../components/cartItems/CartItems'
 
-const Cart = () => {
+const Cart = ({promoCodes = []}) => {
     return (
         <div>
-            <CartItems/>
+            <CartItems promoCodes={promoCodes}/>
         </div>
     )
 }

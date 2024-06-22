@@ -17,16 +17,10 @@ const PromoDisplay = ({ promoCodes = [], isMinimized, onToggle, isAuthenticated 
       if (promoCode.criteria === 'user_nou') {
         return (
           <div key={promoCode._id} className="promo-code-container ineligible">
-            <p>Crează un cont pentru a beneficia de această ofertă: <strong>{promoCode.code}</strong> pentru {promoCode.discountValue}{promoCode.discountType === 'procent' ? '%' : ' lei'}.</p>
+            <p>Crează-ți cont pentru a beneficia de {promoCode.discountValue}{promoCode.discountType === 'procent' ? '%' : ' lei'} reducere la următoarea comandă.</p>
           </div>
         );
-      } else if (promoCode.criteria === 'client_fidel') {
-        return (
-          <div key={promoCode._id} className="promo-code-container ineligible">
-            <p>Crează un cont și plasează 5 comenzi pentru a beneficia de această ofertă: <strong>{promoCode.code}</strong> pentru {promoCode.discountValue}{promoCode.discountType === 'procent' ? '%' : ' lei'}.</p>
-          </div>
-        );
-      }
+      } 
     }
 
     if (isAuthenticated) {
@@ -34,7 +28,7 @@ const PromoDisplay = ({ promoCodes = [], isMinimized, onToggle, isAuthenticated 
         return (
           <div key={promoCode._id} className="promo-code-container eligible">
             <div className="promo-code-header">
-              {promoCode.criteria === 'user_nou' && <h2>Bun venit, utilizator nou!</h2>}
+              {promoCode.criteria === 'user_nou' && <h2>Bun venit!</h2>}
               {promoCode.criteria === 'client_fidel' && <h2>Bun venit, client fidel!</h2>}
               {promoCode.criteria === 'special_event' && <h2>Eveniment Special!</h2>}
               {promoCode.criteria === 'seasonal_offer' && <h2>Ofertă de Sezon!</h2>}
@@ -50,13 +44,7 @@ const PromoDisplay = ({ promoCodes = [], isMinimized, onToggle, isAuthenticated 
               <p>Nu ești eligibil pentru această ofertă. Devii eligibil ca utilizator nou în primele 7 zile de la înregistrare.</p>
             </div>
           );
-        } else if (promoCode.criteria === 'client_fidel') {
-          return (
-            <div key={promoCode._id} className="promo-code-container ineligible">
-              <p>Nu ești eligibil pentru această ofertă. Devii eligibil după ce ai plasat 5 comenzi sau mai multe.</p>
-            </div>
-          );
-        }
+        } 
       }
     }
 

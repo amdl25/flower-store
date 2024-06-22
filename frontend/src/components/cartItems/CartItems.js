@@ -6,25 +6,38 @@ import remove_icon from '../images/cart_cross_icon.png';
 import chocolate_box from '../images/chocolate_box.png';
 import greeting_card from '../images/greeting_card.png';
 
-const CartItems = () => {
+const CartItems = ({ promoCodes = [] }) => {
     const { getTotalCartAmount, all_product, cartItems, removeFromCart, addToCart } = useContext(ShopContext);
     const [promoCode, setPromoCode] = useState('');
     const [discount, setDiscount] = useState(null);
+    const [discountAmount, setDiscountAmount] = useState(0);
     const [errorMessage, setErrorMessage] = useState('');
     const [finalTotal, setFinalTotal] = useState(getTotalCartAmount());
     const navigate = useNavigate();
 
+     useEffect(() => {
+        console.log('Promo Codes in CartItems:', promoCodes);
+    }, [promoCodes]);
+
+
     useEffect(() => {
         if (discount) {
-            let discountAmount = 0;
-            if (discount.discountType === 'percentage') {
-                discountAmount = (getTotalCartAmount() * discount.discountValue) / 100;
-            } else if (discount.discountType === 'fixed') {
-                discountAmount = discount.discountValue;
+            let calculatedDiscountAmount = 0;
+            if (discount.discountType === 'procent') {
+                calculatedDiscountAmount = (getTotalCartAmount() * discount.discountValue) / 100;
+            } else if (discount.discountType === 'sumă fixă') {
+                calculatedDiscountAmount = discount.discountValue;
             }
-            const newTotal = Math.max(0, getTotalCartAmount() - discountAmount);
+            const newTotal = Math.max(0, getTotalCartAmount() - calculatedDiscountAmount);
+
+            console.log('Subtotal:', getTotalCartAmount());
+            console.log('Discount Amount:', calculatedDiscountAmount);
+            console.log('New Total:', newTotal);
+
+            setDiscountAmount(calculatedDiscountAmount);
             setFinalTotal(newTotal);
         } else {
+            setDiscountAmount(0);
             setFinalTotal(getTotalCartAmount());
         }
     }, [discount, getTotalCartAmount]);
@@ -46,13 +59,30 @@ const CartItems = () => {
     
 
     const applyPromoCode = async () => {
+        const enteredCode = promoCode.toUpperCase().trim();
+        const promo = promoCodes.find(code => code.code.toUpperCase() === enteredCode);
+        console.log(promo);
+        console.log(enteredCode);
+
+        if (!promo) {
+            setErrorMessage('Cod promoțional invalid.');
+            setDiscount(null);
+            return;
+        }
+
+        if (!promo.isEligible) {
+            setErrorMessage('Nu sunteți eligibil pentru acest cod promoțional.');
+            setDiscount(null);
+            return;
+        }
+
         try {
             const response = await fetch('http://localhost:4000/api/promocodes/validatepromocode', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ code: promoCode })
+                body: JSON.stringify({ code: enteredCode })
             });
 
             const data = await response.json();
@@ -65,7 +95,7 @@ const CartItems = () => {
             }
         } catch (error) {
             console.error('Error applying promo code:', error);
-            setErrorMessage('An error occurred while applying the promo code.');
+            setErrorMessage('A apărut o eroare la aplicarea codului promoțional.');
         }
     };
 
@@ -139,7 +169,7 @@ const CartItems = () => {
                     <div>
                         <div className='cartitems-total-item'>
                             <p>Subtotal</p>
-                            <p>{getTotalCartAmount()} lei</p>
+                            <p>{getTotalCartAmount().toFixed(2)} lei</p>
                         </div>
                         <hr/>
                         <div className='cartitems-total-item'>
@@ -150,13 +180,13 @@ const CartItems = () => {
                         {discount && (
                             <div className='cartitems-total-item'>
                                 <p>Discount</p>
-                                <p>- {discount.discountType === 'percentage' ? `${discount.discountValue}%` : `${discount.discountValue} lei`}</p>
+                                <p>- {discountAmount.toFixed(2)} lei</p>
                             </div>
                         )}
                         <hr/>
                         <div className='cartitems-total-item'>
                             <h3>Total</h3>
-                            <h3>{finalTotal} lei</h3>
+                            <h3>{finalTotal.toFixed(2)} lei</h3>
                         </div>
                     </div>
                     <button onClick={handleCheckout}>Finalizare</button>
