@@ -184,6 +184,29 @@ const getPromoCodesByCriteria = async (req, res) => {
     }
 };
 
+const getUserPromoUsage = async (req, res) => {
+    const { code, email } = req.body;
+
+    try {
+        const promo = await PromoCode.findOne({ code: code });
+
+        if (!promo) {
+            return res.status(404).json({ success: false, error: 'Promo code not found' });
+        }
+
+        let usageCount = 0;
+        if (email) {
+            const sanitizedEmail = email.replace(/\./g, '_');
+            usageCount = promo.usageHistory.get(sanitizedEmail) || 0;
+        }
+
+        res.json({ success: true, usageCount: usageCount });
+    } catch (error) {
+        console.error('Error fetching promo code usage:', error);
+        res.status(500).json({ success: false, error: 'Server error' });
+    }
+};
+
 
 module.exports = {
     addPromoCode,
@@ -192,5 +215,6 @@ module.exports = {
     getAllPromoCodes,
     removePromoCode,
     updatePromoCode,
-    getPromoCodesByCriteria
+    getPromoCodesByCriteria,
+    getUserPromoUsage
 };

@@ -20,7 +20,6 @@ const CartItems = ({ promoCodes = [] }) => {
     }, [promoCodes]);
 
     useEffect(() => {
-        console.log('Calculating discount and final total');
         if (discount) {
             let calculatedDiscountAmount = 0;
             if (discount.discountType === 'procent') {
@@ -59,26 +58,67 @@ const CartItems = ({ promoCodes = [] }) => {
 
     const handlePromoCodeSubmit = async () => {
         const enteredCode = promoCode.toUpperCase().trim();
-        console.log('Entered Promo Code:', enteredCode);
+        const promo = promoCodes.find(code => code.code.toUpperCase() === enteredCode);
+        console.log('Promo Code Found:', promo);
+    
+        if (!promo) {
+            setErrorMessage('Cod promoțional invalid.');
+            setDiscount(null);
+            clearPromoCode();
+            return;
+        }
+    
+        if (!promo.isEligible) {
+            setErrorMessage('Nu sunteți eligibil pentru acest cod promoțional.');
+            setDiscount(null);
+            clearPromoCode();
+            return;
+        }
     
         try {
-            const response = await fetch('http://localhost:4000/api/promocodes/validatepromocode', {
+            const userEmail = localStorage.getItem('user-email');
+    
+            if (!userEmail) {
+                setErrorMessage('Email-ul utilizatorului nu este disponibil.');
+                return;
+            }
+    
+            const response = await fetch('http://localhost:4000/api/promocodes/usage', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem('auth-token')}`
+                    'Authorization': `Bearer ${localStorage.getItem('auth-token')}`,
+                },
+                body: JSON.stringify({ code: enteredCode, email: userEmail })
+            });
+    
+            const usageData = await response.json();
+            const userUsageCount = usageData.usageCount || 0;
+    
+            if (userUsageCount >= promo.usageLimit) {
+                setErrorMessage('Ați atins limita de utilizare pentru acest cod promoțional.');
+                setDiscount(null);
+                clearPromoCode();
+                return;
+            }
+    
+            const validateResponse = await fetch('http://localhost:4000/api/promocodes/validatepromocode', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('auth-token')}`,
                 },
                 body: JSON.stringify({ code: enteredCode })
             });
     
-            const data = await response.json();
-            if (data.success) {
+            const data = await validateResponse.json();
+            if (validateResponse.ok && data.success) {
                 setDiscount(data.promoCode);
                 setErrorMessage('');
                 contextApplyPromoCode(data.promoCode);
                 console.log('Promo Code Applied:', data.promoCode);
             } else {
-                setErrorMessage(data.error);
+                setErrorMessage(data.error || 'Cod promoțional invalid.');
                 setDiscount(null);
                 clearPromoCode();
             }

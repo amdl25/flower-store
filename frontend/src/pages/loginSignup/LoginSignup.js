@@ -40,6 +40,7 @@ const LoginSignup = ({ onLogin, onSignup, isAuthenticated }) => {
     
             if (responseData.success) {
                 localStorage.setItem('auth-token', responseData.token);
+                localStorage.setItem('user-email', responseData.user.email);
                 onLogin({ email: responseData.user.email, name: responseData.user.name, address: responseData.user.address });
                 navigate('/profil');
             } else {
@@ -67,6 +68,7 @@ const LoginSignup = ({ onLogin, onSignup, isAuthenticated }) => {
     
             if (responseData.success) {
                 localStorage.setItem('auth-token', responseData.token);
+                localStorage.setItem('user-email', responseData.user.email);
                 onSignup({ email: formData.email, name: formData.username });
                 navigate('/profil');
             } else {
