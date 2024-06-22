@@ -20,7 +20,6 @@ function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userData, setUserData] = useState({});
   const [promoCodes, setPromoCodes] = useState([]);
-  const [showPromoDisplay, setShowPromoDisplay] = useState(false);
   const [isPromoMinimized, setIsPromoMinimized] = useState(false);
 
   const handleLogin = (userData) => {
@@ -41,118 +40,144 @@ function App() {
     setIsPromoMinimized(!isPromoMinimized);
   };
 
-  const removeDuplicatePromoCodes = (promoCodes) => {
-    const uniquePromoCodes = [];
-    const seenIds = new Set();
-
-    for (const promoCode of promoCodes) {
-      if (!seenIds.has(promoCode._id)) {
-        uniquePromoCodes.push(promoCode);
-        seenIds.add(promoCode._id);
-      }
+  const checkEligibility = async (promoCode, user, orders) => {
+    if (!user) {
+      return {
+        ...promoCode,
+        isEligible: false,
+        motivationMessage: promoCode.criteria === 'user_nou'
+          ? 'Creează un cont pentru a beneficia de această ofertă: WELCOME10 pentru 10%.'
+          : promoCode.criteria === 'client_fidel'
+          ? 'Creează un cont și plasează 5 comenzi pentru a beneficia de această ofertă: promo2 pentru 20%.'
+          : 'Creează un cont pentru a beneficia de această ofertă.',
+      };
     }
 
-    return uniquePromoCodes;
-  };
-  
+    const today = new Date();
+    const joinDate = new Date(user.date);
+    const daysSinceJoined = Math.floor((today - joinDate) / (1000 * 60 * 60 * 24));
 
-  useEffect(() => {
-    console.log('useEffect executed in App.js');
-    const token = localStorage.getItem('auth-token');
-    if (token) {
-      fetch('http://localhost:4000/api/user/profile', {
+    switch (promoCode.criteria) {
+      case 'user_nou':
+        return {
+          ...promoCode,
+          isEligible: daysSinceJoined <= 7,
+          motivationMessage: daysSinceJoined > 7
+            ? 'Te poți înregistra pentru a primi această ofertă în primele 7 zile de la înregistrare.'
+            : '',
+        };
+      case 'client_fidel':
+        return {
+          ...promoCode,
+          isEligible: orders.length >= 5,
+          motivationMessage: orders.length < 5
+            ? 'Plasează 5 comenzi pentru a beneficia de această ofertă.'
+            : '',
+        };
+      case 'special_event':
+      case 'seasonal_offer':
+        return { ...promoCode, isEligible: true, motivationMessage: '' };
+      default:
+        return { ...promoCode, isEligible: true, motivationMessage: '' };
+    }
+  };
+
+  const fetchPromoCodesForAuthenticatedUser = async (user, token) => {
+    let fetchedPromoCodes = [];
+    try {
+      const generalResponse = await fetch('http://localhost:4000/api/promocodes/allpromocodes', {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+      const generalData = await generalResponse.json();
+      if (Array.isArray(generalData)) {
+        fetchedPromoCodes = generalData;
+      }
+    } catch (error) {
+      console.error('Error fetching general promo codes:', error);
+    }
+
+    try {
+      const ordersResponse = await fetch('http://localhost:4000/api/orders/userorders', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
         }
-      })
-      .then(response => response.json())
-      .then(data => {
-        if (data.success) {
-          setIsAuthenticated(true);
-          setUserData(data.user);
+      });
+      const ordersData = await ordersResponse.json();
+      if (ordersData.success) {
+        const orders = ordersData.orders;
+        const eligiblePromoCodes = await Promise.all(
+          fetchedPromoCodes.map(promoCode => checkEligibility(promoCode, user, orders))
+        );
+        setPromoCodes(eligiblePromoCodes);
+        console.log('Promo codes with eligibility:', eligiblePromoCodes);
+      }
+    } catch (error) {
+      console.error('Error fetching user orders:', error);
+    }
+  };
 
-          fetch('http://localhost:4000/api/orders/userorders', {
+  const fetchPromoCodesForNonAuthenticatedUser = async () => {
+    let fetchedPromoCodes = [];
+    try {
+      const generalResponse = await fetch('http://localhost:4000/api/promocodes/allpromocodes');
+      const generalData = await generalResponse.json();
+      if (Array.isArray(generalData)) {
+        fetchedPromoCodes = generalData;
+      }
+      const eligiblePromoCodes = await Promise.all(
+        fetchedPromoCodes.map(promoCode => checkEligibility(promoCode, null, []))
+      );
+      setPromoCodes(eligiblePromoCodes);
+      console.log('Promo codes for non-authenticated users:', eligiblePromoCodes);
+    } catch (error) {
+      console.error('Error fetching general promo codes:', error);
+    }
+  };
+
+  useEffect(() => {
+    console.log('useEffect executed in App.js');
+    const token = localStorage.getItem('auth-token');
+    if (token) {
+      const fetchUserData = async () => {
+        try {
+          const response = await fetch('http://localhost:4000/api/user/profile', {
             method: 'GET',
             headers: {
               'Content-Type': 'application/json',
               'Authorization': `Bearer ${token}`
             }
-          })
-          .then(res => res.json())
-          .then(orderData => {
-            if (orderData.success) {
-              const orders = orderData.orders;
-              const orderCount = orders.length;
+          });
+          const data = await response.json();
+          console.log('Fetched user data:', data);
 
-              const today = new Date();
-              const joinDate = new Date(data.user.date);
-              const daysSinceJoined = Math.floor((today - joinDate) / (1000 * 60 * 60 * 24));
+          if (data.success) {
+            setIsAuthenticated(true);
+            setUserData(data.user);
 
-              let allPromoCodes = [];
-
-              if (daysSinceJoined <= 7) {
-                console.log('User is new, checking for promo codes...');
-                fetch('http://localhost:4000/api/promocodes/criteria/user_nou')
-                  .then(res => res.json())
-                  .then(promoCodes => {
-                    console.log('Promo codes for new user fetched:', promoCodes);
-                    if (promoCodes.length > 0) {
-                      allPromoCodes = [...allPromoCodes, ...promoCodes];
-                    }
-                  })
-                  .catch(error => console.error('Error fetching promo codes for new user:', error));
-              }
-
-              if (orderCount >= 2) {
-                console.log('User is a loyal customer, checking for promo codes...');
-                fetch('http://localhost:4000/api/promocodes/criteria/client_fidel')
-                  .then(res => res.json())
-                  .then(promoCodes => {
-                    console.log('Promo codes for loyal customers fetched:', promoCodes);
-                    if (promoCodes.length > 0) {
-                      allPromoCodes = [...allPromoCodes, ...promoCodes];
-                    }
-                  })
-                  .catch(error => console.error('Error fetching promo codes for loyal customers:', error));
-              }
-
-              fetch('http://localhost:4000/api/promocodes/allpromocodes')
-              .then(res => res.json())
-              .then(generalPromoCodes => {
-                console.log('General promo codes response:', generalPromoCodes);
-                if (Array.isArray(generalPromoCodes) && generalPromoCodes.length > 0) {
-                  console.log('General promo codes fetched:', generalPromoCodes);
-                  allPromoCodes = [...allPromoCodes, ...generalPromoCodes];
-                } else {
-                  console.warn('No valid promo codes found in the general response or the response is not an array:', generalPromoCodes);
-                }
-
-              const uniquePromoCodes = removeDuplicatePromoCodes(allPromoCodes);
-              console.log('Unique promo codes after deduplication:', uniquePromoCodes);
-
-              setPromoCodes(uniquePromoCodes);
-                setShowPromoDisplay(allPromoCodes.length > 0);
-              })
-              .catch(error => console.error('Error fetching general promo codes:', error));
-
-            } else {
-              console.error('Failed to fetch orders:', orderData.message);
-            }
-          })
-          .catch(error => console.error('Error fetching orders:', error));
-        } else {
+            fetchPromoCodesForAuthenticatedUser(data.user, token);
+          } else {
+            setIsAuthenticated(false);
+            localStorage.removeItem('auth-token');
+            fetchPromoCodesForNonAuthenticatedUser();
+          }
+        } catch (error) {
+          console.error('Error fetching user data:', error);
           setIsAuthenticated(false);
+          localStorage.removeItem('auth-token');
+          fetchPromoCodesForNonAuthenticatedUser();
         }
-      })
-      .catch(error => {
-        console.error('Error fetching user data:', error);
-      });
-    }
-  }, []);
-  
+      };
 
+      fetchUserData();
+    } else {
+      fetchPromoCodesForNonAuthenticatedUser();
+    }
+  }, [isAuthenticated]);
 
   return (
     <div>
@@ -178,11 +203,13 @@ function App() {
         </Routes>
         <Footer />
       </BrowserRouter>
-      {showPromoDisplay && promoCodes.length > 0 && (
+      {promoCodes.length > 0 && (
         <PromoDisplay
           promoCodes={promoCodes}
           isMinimized={isPromoMinimized}
           onToggle={handleTogglePromoDisplay}
+          isAuthenticated={isAuthenticated}
+
         />
       )}
     </div>
