@@ -9,8 +9,6 @@ const fetchUserOptional = (req, res, next) => {
             try {
                 const data = jwt.verify(token, process.env.JWT_SECRET);
                 req.user = data.user;
-
-                console.log('Decoded user data:', data.user);
             } catch (error) {
                 console.log('Invalid token:', error.message);
                 req.user = null;

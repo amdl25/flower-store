@@ -13,8 +13,6 @@ const addMonthlyFlower = async (req, res) => {
     const { month, flowerName, flowerImage, description } = req.body;
     
 
-    
-
     if (!month || !flowerName || !description || !flowerImage) {
         return res.status(400).json({ success: false, message: 'All fields are required, including the image' });
     }
@@ -49,7 +47,6 @@ const getAllMonthlyFlowers = async (req, res) => {
         res.status(500).json({ success: false, message: 'Internal server error' });
     }
 };
-
 
 
 const updateMonthlyFlower = async (req, res) => {

@@ -3,7 +3,6 @@ const { addSubscriber, getSubscribers } = require('../controllers/SubscriberCont
 const router = express.Router();
 
 router.post('/addsubscriber', addSubscriber);
-
 router.get('/subscribers', getSubscribers);
 
 module.exports = router;

@@ -40,6 +40,7 @@ function App() {
     setIsPromoMinimized(!isPromoMinimized);
   };
 
+  
   const checkEligibility = async (promoCode, user, orders) => {
     if (!user) {
       return {

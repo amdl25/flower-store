@@ -55,7 +55,6 @@ const AddMonthlyFlowerSubscription = () => {
                         month: flowerDetails.month,
                         flowerName: flowerDetails.flowerName,
                         description: flowerDetails.description,
-                        flowerImage: imageData.image_url
                     })
                 });
 

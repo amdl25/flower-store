@@ -25,7 +25,7 @@ const AddOccasion = () => {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(newOccasion)
+                body: JSON.stringify(newOccasion) 
             });
             const result = await response.json();
             if (result.success) {

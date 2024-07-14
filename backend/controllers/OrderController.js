@@ -8,7 +8,6 @@ const PromoCode = require('../entities/PromoCode');
 const addOrder = async (req, res) => {
     try {
         console.log('Received order data:', req.body);
-
         const userId = req.user ? req.user.id : null;
         const userEmail = req.body.email;
 
@@ -77,11 +76,9 @@ const addOrder = async (req, res) => {
 
             if (promo) {
                 let identifier = userId ? userId.toString() : userEmail;
-
                 if (!userId) {
                     identifier = identifier.replace(/\./g, '_');
                 }
-
                 const userUsageCount = promo.usageHistory.get(identifier) || 0;
 
                 console.log(`User/Email ${identifier} current usage count for promo code ${promoCode}: ${userUsageCount}`);

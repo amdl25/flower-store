@@ -41,7 +41,7 @@ function Produs() {
       <Breadcrum produs={produs} />
       <ProductDisplay produs={produs} />
       <DescriptionBox />
-      <RelatedProducts />
+      <RelatedProducts currentProduct={produs}/>
     </div>
   );
 }

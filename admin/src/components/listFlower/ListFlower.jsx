@@ -30,7 +30,7 @@ const ListFlower = () => {
             },
             body: JSON.stringify({ id })
         });
-        fetchFlowers();
+        fetchFlowers(); 
     }
 
     const handleEdit = (flower) => {
@@ -68,7 +68,7 @@ const ListFlower = () => {
                 <p>Nume</p>
                 <p>Culori</p>
                 <p>Cantitate</p>
-                <p>Acțiuni</p>
+                <p>Acțiuni</p> 
             </div>
             <div className="listflower-allflowers">
                 <hr />

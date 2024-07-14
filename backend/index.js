@@ -3,16 +3,14 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const multer = require('multer');
 const path = require('path');
-
 const cron = require('node-cron');
-const { sendMonthlyFlowerEmail } = require('./emailService');
-
 
 const app = express();
 const port = 4000;
 
 app.use(express.json());
 app.use(cors());
+
 
 mongoose.connect(process.env.MONGODB_URI)
 
@@ -26,6 +24,7 @@ const storage = multer.diskStorage({
     }
 });
 const upload = multer({ storage: storage });
+
 
 app.post("/upload", upload.single('product'), (req, res) => {
     res.json({
@@ -43,32 +42,7 @@ app.post("/upload/monthlyflower", upload.single('flowerImage'), (req, res) => {
 
 
 cron.schedule('0 0 1 * *', async () => {
-    console.log('Încep trimiterea emailurilor pentru floarea lunii...');
-
-    try {
-        const currentMonth = new Date().toLocaleString('ro-RO', { month: 'long' });
-        const monthlyFlower = await MonthlyFlowerSubscription.findOne({ month: currentMonth });
-
-        if (!monthlyFlower) {
-            console.log(`Nu există floare setată pentru luna ${currentMonth}`);
-            return;
-        }
-
-        const subscribers = await Subscriber.find();
-
-        for (const subscriber of subscribers) {
-            await sendMonthlyFlowerEmail(subscriber.email, monthlyFlower);
-        }
-
-        console.log('Trimiterea emailurilor a fost finalizată.');
-    } catch (error) {
-        console.error(`Eroare la trimiterea emailurilor: ${error}`);
-    }
-});
-
-
-cron.schedule('0 0 1 * *', async () => {
-    console.log('Trimitere email-uri pentru floarea lunii...');
+    console.log('Trimiterea email-urilor pentru floarea lunii...');
     await sendMonthlyFlowerEmail();
 });
 

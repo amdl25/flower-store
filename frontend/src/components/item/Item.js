@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 
 const Item = (props) => {
     const { id, name, image, new_price, old_price, price } = props;
-
     const displayPrice = new_price !== undefined ? new_price : price;
     const displayOldPrice = new_price !== undefined ? old_price : null;
 

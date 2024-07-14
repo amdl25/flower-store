@@ -3,10 +3,12 @@ import './RelatedProducts.css';
 import Item from '../item/Item';
 import { ShopContext } from '../../context/ShopContext';
 
-const RelatedProducts = () => {
+const RelatedProducts = ({ currentProduct }) => {
   const { all_product: allProducts } = useContext(ShopContext);
 
-  const relatedProducts = allProducts.slice(0, 6);
+  const relatedProducts = allProducts
+    .filter(product => product.category === currentProduct.category && product.id !== currentProduct.id)
+    .slice(-6);
 
   return (
     <div className='relatedproducts'>

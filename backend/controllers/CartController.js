@@ -6,7 +6,6 @@ const addToCart = async (req, res) => {
 
         if (req.user) {
             console.log("Authenticated user:", req.user);
-
             let user = await User.findOne({ _id: req.user.id });
             if (!user) {
                 console.log("User not found");
@@ -44,7 +43,6 @@ const addToCart = async (req, res) => {
             res.json({ success: true, message: "Added to cart", cartData: user.cartData });
         } else {
             console.log("Unauthenticated user, handling on the client side");
-
             res.json({ success: true, message: "Product should be added to the client-side cart for unauthenticated users" });
         }
     } catch (error) {

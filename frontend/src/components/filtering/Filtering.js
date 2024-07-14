@@ -194,31 +194,6 @@ const Filtering = ({ filters, applyFilters }) => {
                     )}
                 </div>
 
-                <div className="filtering-column">
-                    <div className="filtering-item">
-                        <div className="filtering-toggle" onClick={() => setShowColorOptions(!showColorOptions)}>
-                            Culori
-                            <img src={dropdown_icon} alt="" className={`filtering-toggle-icon ${showColorOptions ? 'expanded' : ''}`} />
-                        </div>
-                        {showColorOptions && (
-                            <div className="options-box">
-                                {['Roz', 'Alb', 'Roșu', 'Mov', 'Portocaliu', 'Galben', 'Crem', 'Albastru', 'Multicolore'].map((color) => (
-                                    <button key={color} type="button" className="filtering-option" onClick={() => handleColorChange(color)}>{color}</button>
-                                ))}
-                            </div>
-                        )}
-                    </div>
-                    {selectedColors.length > 0 && (
-                        <div className="filter-label">
-                            {selectedColors.map(color => (
-                                <span key={color}>
-                                    {color}
-                                    <img src={close_icon} alt="Remove" className="remove-filter" onClick={() => handleRemoveFilter('colors', color)} />
-                                </span>
-                            ))}
-                        </div>
-                    )}
-                </div>
             </form>
         </div>
     );

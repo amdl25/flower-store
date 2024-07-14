@@ -38,9 +38,9 @@ const AddProduct = () => {
     const handleFlowersChange = async (selectedOptions) => {
         const selectedFlowers = selectedOptions.map(option => ({
             id: option.value,
-            flower: option.value,
-            name: option.label,
-            quantity: 0
+            flower: option.value, 
+            name: option.label,    
+            quantity: 0 
         }));
         setProductDetails(prevDetails => ({
             ...prevDetails,
@@ -219,8 +219,6 @@ const AddProduct = () => {
                     classNamePrefix="select"
                     onChange={handleFlowersChange}
                 />
-
-                
 
                 {productDetails.flowers.map(flower => (
                 <div key={flower.id} className='addproduct-itemfield'>

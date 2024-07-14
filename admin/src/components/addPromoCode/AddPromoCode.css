@@ -12,7 +12,7 @@
     width: 100%;
     color: #7b7b7b;
     font-size: 16px;
-    margin-bottom: 20px;
+    margin-bottom: 20px; 
 }
 
 .addpromocode-itemfield label {
@@ -40,7 +40,7 @@
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
-    padding-right: 30px;
+    padding-right: 30px; 
     background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4 5"><path fill="%237b7b7b" d="M2 0L0 2h4zM2 5L0 3h4z"/></svg>');
     background-repeat: no-repeat;
     background-position: right 10px center;
@@ -61,8 +61,8 @@
     color: white;
     font-size: 16px;
     font-weight: 500;
-    display: block;
-    margin: 20px auto 0;
+    display: block; 
+    margin: 20px auto 0; 
 }
 
 @media(max-width:800px) {
