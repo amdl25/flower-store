@@ -194,7 +194,8 @@ function App() {
           </Route>
           <Route path='/cart' element={<Cart promoCodes={promoCodes} />} />
           <Route path="/login" element={<LoginSignup onLogin={handleLogin} onSignup={handleSignup} isAuthenticated={isAuthenticated} />} />
-          <Route path="/profil" element={isAuthenticated ? <Profil userData={userData} setIsAuthenticated={setIsAuthenticated} updateUserData={updateUserData} /> : <Navigate to="/login" />} />
+          <Route path="/profil" element={isAuthenticated ? <Profil userData={userData} setIsAuthenticated={setIsAuthenticated}
+            updateUserData={updateUserData} /> : <Navigate to="/login" />} />
           <Route path="/search" element={<Search />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/order-success" element={<OrderSuccess />} />

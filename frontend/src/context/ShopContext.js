@@ -12,7 +12,6 @@ const ShopContextProvider = (props) => {
     const [loading, setLoading] = useState(true);
     const [promoCode, setPromoCode] = useState(null);
     const [discountAmount, setDiscountAmount] = useState(0);
-
     useEffect(() => {
         const fetchCartData = async () => {
             if (localStorage.getItem('auth-token')) {

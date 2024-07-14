@@ -102,9 +102,6 @@ const removeProduct = async (req, res) => {
 const newCollection = async (req, res) => {
     try {
         let newcollection = await Product.find({}).sort({ _id: -1 }).limit(3);
-        
-        console.log('New collection fetched:', newcollection);
-        
         res.status(200).json(newcollection);
     } catch (error) {
         console.error("Error fetching new collection:", error);
@@ -138,6 +135,24 @@ const getProductById = async (req, res) => {
     }
 };
 
+const filterProducts = async (req, res) => {
+    const { flowers, colors } = req.body.filters;
+    try {
+        const filteredProducts = await Product.find({
+            flowers: {
+                $elemMatch: {
+                    flower: { $in: flowers },
+                    selectedColors: { $in: colors }
+                }
+            }
+        });
+        res.json(filteredProducts);
+    } catch (error) {
+        console.error('Error fetching filtered products:', error);
+        res.status(500).json({ error: 'Error fetching filtered products' });
+    }
+};
+
 module.exports = {
     addProduct,
     getAllProducts,
@@ -145,5 +160,6 @@ module.exports = {
     removeProduct,
     newCollection, 
     productsDiscounted,
-    getProductById
+    getProductById,
+    filterProducts
 };

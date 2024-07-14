@@ -64,15 +64,12 @@ const CategorieMeniu = () => {
 
                 if (location.pathname.includes('/produse/')) {
                     results = allProducts.filter(product => slugify(product.category) === normalizedSubcategorie);
-                    console.log("Filtered Products by Category:", results);
                 } else if (location.pathname.includes('/ocazii/')) {
                     const occasion = occasions.find(o => slugify(o.name) === normalizedSubcategorie);
                     const occasionID = occasion ? occasion.id : null;
-                    console.log("Mapped Occasion ID:", occasionID);
 
                     if (occasionID) {
                         results = allProducts.filter(product => product.occasions && product.occasions.includes(occasionID));
-                        console.log("Filtered Products by Occasion ID:", results);
                     } else {
                         setNoProductsMessage('Nu există produse pentru selecția dvs.');
                         setFilteredProducts([]);
@@ -81,7 +78,6 @@ const CategorieMeniu = () => {
                 }
             } else {
                 results = allProducts;
-                console.log("Displaying all products because no subcategorie is chosen");
             }
 
             const flowerNameToIDMap = Object.fromEntries(flowers.map(f => [f.name, f.id]));

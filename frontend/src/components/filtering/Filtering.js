@@ -71,9 +71,31 @@ const Filtering = ({ filters, applyFilters }) => {
             : [...selectedColors, color];
         setSelectedColors(newSelectedColors);
         setShowColorOptions(false);
-        applyFilters({ ...filters, colors: newSelectedColors });
+        const updatedFilters = { ...filters, colors: newSelectedColors };
+        applyFilters(updatedFilters);
+        fetchFilteredProducts(updatedFilters);
     };
 
+    const fetchFilteredProducts = async (filters) => {
+        try {
+            const response = await fetch('http://localhost:4000/api/products/filter', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ filters })
+            });
+            const data = await response.json();
+            console.log("Filtered Products:", data);
+        } catch (error) {
+            console.error('Error fetching filtered products:', error);
+        }
+    };
+
+    useEffect(() => {
+        fetchFilteredProducts({ flowers: selectedFlowers, colors: selectedColors });
+    }, [selectedFlowers, selectedColors]);
+    
     const handleRemoveFilter = (filterType, value) => {
         switch (filterType) {
             case 'category':
@@ -180,7 +202,7 @@ const Filtering = ({ filters, applyFilters }) => {
                         </div>
                         {showColorOptions && (
                             <div className="options-box">
-                                {['Roz', 'Alb', 'Roșu', 'Mov', 'Portocaliu', 'Crem', 'Albastru', 'Multicolore'].map((color) => (
+                                {['Roz', 'Alb', 'Roșu', 'Mov', 'Portocaliu', 'Galben', 'Crem', 'Albastru', 'Multicolore'].map((color) => (
                                     <button key={color} type="button" className="filtering-option" onClick={() => handleColorChange(color)}>{color}</button>
                                 ))}
                             </div>

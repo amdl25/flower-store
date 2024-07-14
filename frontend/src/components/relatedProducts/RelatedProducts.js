@@ -6,7 +6,7 @@ import { ShopContext } from '../../context/ShopContext';
 const RelatedProducts = () => {
   const { all_product: allProducts } = useContext(ShopContext);
 
-  const relatedProducts = allProducts.slice(0, 8);
+  const relatedProducts = allProducts.slice(0, 6);
 
   return (
     <div className='relatedproducts'>

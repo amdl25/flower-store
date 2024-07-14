@@ -73,10 +73,11 @@ const AddProduct = () => {
         }));
     };
 
-    const handleFlowerColorChange = (flowerId, selectedColor) => {
+    const handleFlowerColorChange = (flowerId, selectedOptions) => {
+        const selectedColors = selectedOptions.map(option => option.value);
         const updatedFlowers = productDetails.flowers.map(flower => {
             if (flower.id === flowerId) {
-                return { ...flower, selectedColor };
+                return { ...flower, selectedColors };
             }
             return flower;
         });
@@ -85,6 +86,8 @@ const AddProduct = () => {
             flowers: updatedFlowers
         }));
     };
+    
+    
 
     const handleOccasionsChange = (selectedOptions) => {
         setProductDetails(prevDetails => ({
@@ -225,14 +228,18 @@ const AddProduct = () => {
                         <Select
                             isMulti
                             options={flowerColors[flower.id] || []}
-                            onChange={(selectedOption) => handleFlowerColorChange(flower.id, selectedOption.value)}
+                            onChange={(selectedOptions) => handleFlowerColorChange(flower.id, selectedOptions)}
                         />
-                    <p>Cantitate pentru {flower.name}</p>
-                    <input 
-                        type="number" 
-                        value={flower.quantity} 
-                        onChange={(e) => handleFlowerQuantityChange(flower.id, Math.max(0, e.target.value))} 
-                    />
+                    {productDetails.category !== 'flori-criogenate' && (
+                            <>
+                                <p>Cantitate pentru {flower.name}</p>
+                                <input 
+                                    type="number" 
+                                    value={flower.quantity} 
+                                    onChange={(e) => handleFlowerQuantityChange(flower.id, Math.max(0, e.target.value))} 
+                                />
+                            </>
+                        )}
                 </div>
                 ))}
             </div>

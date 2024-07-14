@@ -15,6 +15,7 @@ const AddFlower = () => {
         { value: 'Roșu', label: 'Roșu' },
         { value: 'Mov', label: 'Mov' },
         { value: 'Portocaliu', label: 'Portocaliu' },
+        { value: 'Galben', label: 'Galben' },
         { value: 'Crem', label: 'Crem' },
         { value: 'Albastru', label: 'Albastru' },
         { value: 'Multicolore', label: 'Multicolore' }

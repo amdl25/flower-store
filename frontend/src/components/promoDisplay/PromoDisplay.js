@@ -35,7 +35,7 @@ const PromoDisplay = ({ promoCodes = [], isMinimized, onToggle, isAuthenticated 
       if (promoCode.criteria === 'user_nou') {
         return (
           <div key={promoCode._id} className="promo-code-container ineligible">
-            <p>Crează-ți cont pentru a beneficia de {promoCode.discountValue}{promoCode.discountType === 'procent' ? '%' : ' lei'} reducere la următoarea comandă.</p>
+            <p>Creează-ți cont pentru a beneficia de {promoCode.discountValue}{promoCode.discountType === 'procent' ? '%' : ' lei'} reducere la următoarea comandă.</p>
           </div>
         );
       }
@@ -88,6 +88,7 @@ const PromoDisplay = ({ promoCodes = [], isMinimized, onToggle, isAuthenticated 
         )}
       </div>
     )
+    
   );
 };
 

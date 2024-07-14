@@ -26,7 +26,6 @@ const ProductDisplay = (props) => {
 
     useEffect(() => {
         window.scrollTo(0, 0);
-
         if (produs && produs.flowers) {
             fetch('http://localhost:4000/api/flowers/allflowers')
                 .then(response => response.json())
@@ -88,7 +87,6 @@ const ProductDisplay = (props) => {
                 additionalCost
             };
     
-            console.log("Product details to be added to cart:", productDetails);
     
             fetch('http://localhost:4000/api/cart/addtocart', {
                 method: 'POST',
@@ -101,9 +99,7 @@ const ProductDisplay = (props) => {
             })
             .then((response) => response.json())
             .then((data) => {
-                console.log('Add to cart response:', data);
                 if (data.success) {
-                    console.log('Product added to cart:', data.cart);
                     addToCart(productDetails);
                     toast.success('Produsul a fost adăugat în coș!', {
                         position: "top-right",
@@ -113,7 +109,7 @@ const ProductDisplay = (props) => {
                         pauseOnHover: true,
                         draggable: true,
                         progress: undefined,
-                        className: 'custom-toast'
+                        className: 'custom-toast' 
                     });
                 } else {
                     console.error('Failed to add product to cart:', data.message);
@@ -152,20 +148,22 @@ const ProductDisplay = (props) => {
             <div className='productdisplay-right'>
                 <h1>{produs.name}</h1>
 
-                <div className='productdisplay-right-flowers'>
-                    <h2>Flori incluse:</h2>
-                    {flowerDetails.length > 0 ? (
-                        <ul>
-                            {flowerDetails.map(flower => (
-                                <li key={flower.id}>
-                                    {flower.name} - {flower.includedQuantity} bucăți în acest buchet ({flower.quantity} disponibile)
-                                </li>
-                            ))}
-                        </ul>
-                    ) : (
-                        <p>No flowers included</p>
-                    )}
-                </div>
+                {produs.category !== 'flori-criogenate' && (
+                    <div className='productdisplay-right-flowers'>
+                        <h2>Flori incluse:</h2>
+                        {flowerDetails.length > 0 ? (
+                            <ul>
+                                {flowerDetails.map(flower => (
+                                    <li key={flower.id}>
+                                        {flower.name} - {flower.includedQuantity} bucăți ({flower.quantity} disponibile)
+                                    </li>
+                                ))}
+                            </ul>
+                        ) : (
+                            <p>No flowers included</p>
+                        )}
+                    </div>
+                )}
 
                 <div className='productdisplay-right-prices'>
                     {displayOldPrice && <div className='productdisplay-right-price-old'>{displayOldPrice} lei</div>}
@@ -227,6 +225,7 @@ const ProductDisplay = (props) => {
                     <p className='warning'>Vă rugăm să selectați data și ora livrării. Dacă alegeți opțiunea de felicitare, completați și textul pentru felicitare.</p>
                 )}
                 <ToastContainer />
+                
             </div>
         </div>
     );

@@ -42,6 +42,30 @@ app.post("/upload/monthlyflower", upload.single('flowerImage'), (req, res) => {
 });
 
 
+cron.schedule('0 0 1 * *', async () => {
+    console.log('Încep trimiterea emailurilor pentru floarea lunii...');
+
+    try {
+        const currentMonth = new Date().toLocaleString('ro-RO', { month: 'long' });
+        const monthlyFlower = await MonthlyFlowerSubscription.findOne({ month: currentMonth });
+
+        if (!monthlyFlower) {
+            console.log(`Nu există floare setată pentru luna ${currentMonth}`);
+            return;
+        }
+
+        const subscribers = await Subscriber.find();
+
+        for (const subscriber of subscribers) {
+            await sendMonthlyFlowerEmail(subscriber.email, monthlyFlower);
+        }
+
+        console.log('Trimiterea emailurilor a fost finalizată.');
+    } catch (error) {
+        console.error(`Eroare la trimiterea emailurilor: ${error}`);
+    }
+});
+
 
 cron.schedule('0 0 1 * *', async () => {
     console.log('Trimitere email-uri pentru floarea lunii...');

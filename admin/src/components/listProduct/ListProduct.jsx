@@ -70,7 +70,6 @@ const ListProduct = () => {
         }
 
         updatedProduct.image = imageUrl;
-
         await fetch('http://localhost:4000/api/products/updateproduct', {
             method: 'PUT',
             headers: {
@@ -140,8 +139,8 @@ const ListProduct = () => {
                             <label>Preț redus:</label>
                             <input
                                 type="number"
-                                value={editingProduct.discount || ''}
-                                onChange={(e) => setEditingProduct({ ...editingProduct, discount: parseFloat(e.target.value) || 0 })}
+                                value={editingProduct.discountedPrice || ''}
+                                onChange={(e) => setEditingProduct({ ...editingProduct, discountedPrice: parseFloat(e.target.value) || 0 })}
                             />
                             <label>Categorie:</label>
                             <input
