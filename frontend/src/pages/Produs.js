@@ -1,29 +1,36 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { ShopContext } from '../context/ShopContext';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import Breadcrum from '../components/breadcrums/Breadcrum';
 import ProductDisplay from '../components/productDisplay/ProductDisplay';
 import DescriptionBox from '../components/descriptionBox/DescriptionBox';
 import RelatedProducts from '../components/relatedProducts/RelatedProducts';
 
 function Produs() {
-  const { all_product: allproducts, loading } = useContext(ShopContext);
+  const { all_product: allproducts, loading } = useContext(ShopContext); 
   const { idProdus } = useParams();
+  const location = useLocation();
+  const [produs, setProdus] = useState(null);
 
-  console.log("Product ID from URL params:", idProdus);
-  console.log("All products in Produs component:", allproducts);
+  useEffect(() => {
+    if (location.pathname === '/produse/buchet-surpriza') {
+      fetch(`http://localhost:4000/api/products/surpriseProduct`)
+        .then(response => response.json())
+        .then(data => {
+          setProdus(data);
+        })
+        .catch(error => console.error('Error fetching product details:', error));
+    } else {
+      if (allproducts && Array.isArray(allproducts)) {
+        const foundProduct = allproducts.find(e => e.id === idProdus || e.id === Number(idProdus));
+        setProdus(foundProduct);
+      }
+    }
+  }, [location.pathname, allproducts, idProdus]);
 
-  if (loading) {
-    return <div>Loading...</div>;
+  if (loading || !produs) {
+    return <div>Loading...</div>; 
   }
-
-  if (!allproducts || !Array.isArray(allproducts)) {
-    return <div>Error loading products. Please try again later.</div>;
-  }
-
-  const produs = allproducts.find((e) => e.id === idProdus || e.id === Number(idProdus));
-
-  console.log("Selected product:", produs);
 
   if (!produs) {
     return <div>Product not found</div>;

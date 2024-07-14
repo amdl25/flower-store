@@ -186,6 +186,7 @@ function App() {
           <Route path='/' element={<Acasa />} />
           <Route path='/produse' element={<CategorieMeniu categorie="produse" />} />
           <Route path='/produse/:subcategorie' element={<CategorieMeniu />} />
+          <Route path = '/produse/buchet-surpriza' element = {<Produs /> } />
           <Route path='/ocazii' element={<CategorieMeniu categorie="ocazii" />} />
           <Route path='/ocazii/:subcategorie' element={<CategorieMeniu />} />
           <Route path='/despre noi' element={<DespreNoi />} />

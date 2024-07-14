@@ -9,10 +9,18 @@ const Breadcrum = (props) => {
         'buchete': 'Buchete',
         'cosuri-flori': 'Coșuri cu flori',
         'flori-criogenate': 'Flori criogenate',
-        'flori-cutii': 'Flori în cutii'
+        'flori-cutii': 'Flori în cutii',
     };
 
     const categoryName = categoryMapping[produs.category] || produs.category;
+
+    if (produs.name === 'Buchet Surpriză') {
+        return (
+            <div className='breadcrum'>
+                Produse <img src={arrow_icon} alt="" /> Buchet Surpriză
+            </div>
+        );
+    }
 
     return (
         <div className='breadcrum'>

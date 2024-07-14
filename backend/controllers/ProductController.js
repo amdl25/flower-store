@@ -121,7 +121,6 @@ const productsDiscounted = async (req, res) => {
 const getProductById = async (req, res) => {
     try {
         const productId = req.params.id;
-
         const product = await Product.findOne({ id: parseInt(productId, 10) });
 
         if (!product) {
@@ -153,6 +152,19 @@ const filterProducts = async (req, res) => {
     }
 };
 
+const surpriseProduct = async (req, res) => {
+    try {
+        const product = await Product.findOne({ isSurprise: true });
+        if (product) {
+            res.json(product);
+        } else {
+            res.status(404).json({ message: 'Produsul surpriză nu a fost găsit' });
+        }
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
 module.exports = {
     addProduct,
     getAllProducts,
@@ -161,5 +173,6 @@ module.exports = {
     newCollection, 
     productsDiscounted,
     getProductById,
-    filterProducts
+    filterProducts,
+    surpriseProduct
 };

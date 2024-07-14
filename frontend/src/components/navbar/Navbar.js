@@ -93,6 +93,7 @@ const Navbar = ({ isAuthenticated }) => {
                             <Link to="/produse/cosuri-flori">Coșuri cu flori</Link>
                             <Link to="/produse/flori-criogenate">Flori criogenate</Link>
                             <Link to="/produse/flori-cutii">Flori în cutii</Link>
+                            <Link to="/produse/buchet-surpriza">Buchet Surpriză</Link>
                         </div>
                     )}
                 </li>

@@ -12,7 +12,6 @@ import 'react-toastify/dist/ReactToastify.css';
 const ProductDisplay = (props) => {
     const { produs } = props;
     const { addToCart } = useContext(ShopContext);
-
     const [date, setDate] = useState(null);
     const [selectedTimeOption, setSelectedTimeOption] = useState(null);
     const [greetingMessage, setGreetingMessage] = useState("");
@@ -148,23 +147,28 @@ const ProductDisplay = (props) => {
             <div className='productdisplay-right'>
                 <h1>{produs.name}</h1>
 
-                {produs.category !== 'flori-criogenate' && (
-                    <div className='productdisplay-right-flowers'>
-                        <h2>Flori incluse:</h2>
-                        {flowerDetails.length > 0 ? (
-                            <ul>
-                                {flowerDetails.map(flower => (
-                                    <li key={flower.id}>
-                                        {flower.name} - {flower.includedQuantity} bucăți ({flower.quantity} disponibile)
-                                    </li>
-                                ))}
-                            </ul>
-                        ) : (
-                            <p>No flowers included</p>
-                        )}
-                    </div>
+               {produs.isSurprise ? (
+                    <div className='productdisplay-surprise-message'>
+                    Conține un număr de 15 flori dintre cele disponibile.
+                </div>
+                ) : (
+                    produs.category !== 'flori-criogenate' && (
+                        <div className='productdisplay-right-flowers'>
+                            <h2>Flori incluse:</h2>
+                            {flowerDetails.length > 0 ? (
+                                <ul>
+                                    {flowerDetails.map(flower => (
+                                        <li key={flower.id}>
+                                            {flower.name} - {flower.includedQuantity} bucăți ({flower.quantity} disponibile)
+                                        </li>
+                                    ))}
+                                </ul>
+                            ) : (
+                                <p>No flowers included</p>
+                            )}
+                        </div>
+                    )
                 )}
-
                 <div className='productdisplay-right-prices'>
                     {displayOldPrice && <div className='productdisplay-right-price-old'>{displayOldPrice} lei</div>}
                     <div className='productdisplay-right-price-new'>{displayNewPrice} lei</div>
