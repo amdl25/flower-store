@@ -11,13 +11,16 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const ProductDisplay = (props) => {
     const { produs } = props;
-    const { addToCart } = useContext(ShopContext);
+    const { addToCart: addToCartContext, cartItems, getTotalCartItems } = useContext(ShopContext);
     const [date, setDate] = useState(null);
     const [selectedTimeOption, setSelectedTimeOption] = useState(null);
     const [greetingMessage, setGreetingMessage] = useState("");
     const [showWarning, setShowWarning] = useState(false);
     const [flowerDetails, setFlowerDetails] = useState([]);
     const [insufficientStock, setInsufficientStock] = useState(false);
+    const [maxQuantity, setMaxQuantity] = useState(0);
+    const [quantity, setQuantity] = useState(1);
+
 
     const [selectedOptions, setSelectedOptions] = useState({
         greetingCard: false,
@@ -38,7 +41,12 @@ const ProductDisplay = (props) => {
                         };
                     });
                     setFlowerDetails(details);
-                    const insufficient = details.some(flower => flower.includedQuantity > flower.quantity);
+
+                    const maxQuantities = details.map(flower => Math.floor(flower.quantity / flower.includedQuantity));
+                    const maxAllowed = Math.min(...maxQuantities);
+                    setMaxQuantity(maxAllowed);
+
+                    const insufficient = maxAllowed === 0;
                     setInsufficientStock(insufficient);
                 })
                 .catch(error => {
@@ -75,6 +83,17 @@ const ProductDisplay = (props) => {
 
     const handleAddToCart = () => {
         if (areRequiredFieldsFilled) {
+            const totalQuantityInCart = getTotalCartItems();
+            const currentProductQuantityInCart = cartItems[produs.id]?.quantity || 0;
+            const newTotalQuantity = totalQuantityInCart + quantity - currentProductQuantityInCart;
+
+            if (insufficientStock || maxQuantity <= 0 || newTotalQuantity > maxQuantity) {
+                toast.error('Stoc insuficient pentru una sau mai multe flori. Vă rugăm să verificați disponibilitatea.', {
+                    className: 'custom-toast-stock'
+                });
+                return;
+            }
+
             let additionalCost = 0;
             if (selectedOptions.chocolateBox) {
                 additionalCost += 85;
@@ -86,43 +105,24 @@ const ProductDisplay = (props) => {
                 time: selectedTimeOption.value,
                 greetingMessage: selectedOptions.greetingCard ? greetingMessage : null,
                 selectedOptions,
-                additionalCost
+                additionalCost,
+                quantity
             };
-    
-    
-            fetch('http://localhost:4000/api/cart/addtocart', {
-                method: 'POST',
-                headers: {
-                    Accept: 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem('auth-token')}`,
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(productDetails)
-            })
-            .then((response) => response.json())
-            .then((data) => {
-                if (data.success) {
-                    addToCart(productDetails);
-                    toast.success('Produsul a fost adăugat în coș!', {
-                        position: "top-right",
-                        autoClose: 3000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                        className: 'custom-toast' 
-                    });
-                } else {
-                    console.error('Failed to add product to cart:', data.message);
-                }
-            })
-            .catch((error) => console.error('Error adding product to cart:', error));
+
+            addToCartContext(productDetails, maxQuantity);
     
             setShowWarning(false);
         } else {
             setShowWarning(true);
         }
+    };
+
+    const incrementQuantity = () => {
+        setQuantity((prevQuantity) => Math.min(prevQuantity + 1, maxQuantity));
+    };
+
+    const decrementQuantity = () => {
+        setQuantity((prevQuantity) => Math.max(prevQuantity - 1, 1));
     };
     
     const displayNewPrice = produs.discountedPrice || produs.price;
@@ -224,6 +224,21 @@ const ProductDisplay = (props) => {
                                         />
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+
+                        <div className='quantity-selector'>
+                            <label>Cantitate:</label>
+                            <div className='quantity-input-container'>
+                                <button onClick={decrementQuantity}>-</button>
+                                <input 
+                                    type="number" 
+                                    value={quantity} 
+                                    min="1" 
+                                    max={maxQuantity} 
+                                    readOnly 
+                                />
+                                <button onClick={incrementQuantity}>+</button>
                             </div>
                         </div>
 

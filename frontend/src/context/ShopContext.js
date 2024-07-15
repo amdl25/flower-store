@@ -1,4 +1,5 @@
 import React, { createContext, useState, useEffect, useCallback } from 'react';
+import { toast } from 'react-toastify';
 
 export const ShopContext = createContext(null);
 
@@ -12,6 +13,7 @@ const ShopContextProvider = (props) => {
     const [loading, setLoading] = useState(true);
     const [promoCode, setPromoCode] = useState(null);
     const [discountAmount, setDiscountAmount] = useState(0);
+
     useEffect(() => {
         const fetchCartData = async () => {
             if (localStorage.getItem('auth-token')) {
@@ -38,7 +40,7 @@ const ShopContextProvider = (props) => {
                 setCartItems(getDefaultCart());
             }
         };
-    
+
         const fetchProducts = async () => {
             try {
                 const response = await fetch('http://localhost:4000/api/products/allproducts');
@@ -51,7 +53,7 @@ const ShopContextProvider = (props) => {
                 setLoading(false);
             }
         };
-    
+
         fetchProducts();
         fetchCartData();
     }, []);
@@ -67,29 +69,43 @@ const ShopContextProvider = (props) => {
         setDiscountAmount(discount);
         console.log('Promo Code Applied in Context:', promo);
     };
-    
+
     const clearPromoCode = () => {
         setPromoCode(null);
         setDiscountAmount(0);
         console.log('Promo Code Cleared in Context');
     };
 
-    const addToCart = (productDetails) => {
-        setCartItems((prev) => ({
-            ...prev,
+    const getTotalQuantityInCart = useCallback((productId) => {
+        return cartItems[productId]?.quantity || 0;
+    }, [cartItems]);
+
+    const addToCart = (productDetails, maxQuantity) => {
+        const currentQuantity = (cartItems[productDetails.productId]?.quantity || 0) + productDetails.quantity;
+        if (currentQuantity > maxQuantity) {
+            toast.error('Stoc insuficient pentru acest produs. Vă rugăm să reduceți cantitatea.', {
+                className: 'custom-toast-stock'
+            });
+            return;
+        }
+
+        const updatedCartItems = {
+            ...cartItems,
             [productDetails.productId]: {
-                ...(prev[productDetails.productId] || {}),
-                quantity: (prev[productDetails.productId]?.quantity || 0) + 1,
+                ...(cartItems[productDetails.productId] || {}),
+                quantity: currentQuantity,
                 date: productDetails.date,
                 time: productDetails.time,
                 greetingMessage: productDetails.greetingMessage,
                 selectedOptions: productDetails.selectedOptions,
                 additionalCost: productDetails.additionalCost
             }
-        }));
+        };
+
+        setCartItems(updatedCartItems);
 
         const token = localStorage.getItem('auth-token');
-    
+
         if (token) {
             const apiUrl = 'http://localhost:4000/api/cart/addtocart';
             const headers = {
@@ -101,7 +117,7 @@ const ShopContextProvider = (props) => {
                 headers: headers,
                 body: JSON.stringify(productDetails)
             };
-    
+
             fetch(apiUrl, requestOptions)
                 .then((response) => {
                     if (!response.ok) {
@@ -111,12 +127,15 @@ const ShopContextProvider = (props) => {
                 })
                 .then((data) => {
                     console.log('Add to cart response:', data);
+                    toast.success('Produsul a fost adăugat în coș!', {
+                        className: 'custom-toast-stock'
+                    });
                 })
                 .catch((error) => console.error('Error adding to cart:', error));
         } else {
             let cart = JSON.parse(localStorage.getItem('cart')) || {};
             const { productId } = productDetails;
-    
+
             if (cart[productId]) {
                 cart[productId].quantity += 1;
             } else {
@@ -125,9 +144,12 @@ const ShopContextProvider = (props) => {
                     ...productDetails
                 };
             }
-    
+
             localStorage.setItem('cart', JSON.stringify(cart));
             console.log('Product added to local cart:', cart);
+            toast.success('Produsul a fost adăugat în coș!', {
+                className: 'custom-toast-stock'
+            });
         }
     };
 
@@ -142,7 +164,7 @@ const ShopContextProvider = (props) => {
             }
             return updatedCart;
         });
-    
+
         const token = localStorage.getItem('auth-token');
         if (token) {
             fetch('http://localhost:4000/api/cart/removefromcart', {
@@ -172,7 +194,7 @@ const ShopContextProvider = (props) => {
         setCartItems(getDefaultCart());
         console.log('Cart cleared:', getDefaultCart());
     };
-    
+
     const logout = () => {
         localStorage.removeItem('auth-token');
         clearCart();
@@ -193,7 +215,7 @@ const ShopContextProvider = (props) => {
         }
         return totalAmount;
     }, [cartItems, all_product]);
-    
+
     const getTotalCartItems = useCallback(() => {
         let totalItem = 0;
         for(const itemId in cartItems) {
@@ -207,6 +229,7 @@ const ShopContextProvider = (props) => {
 
     const contextValue = { 
         getTotalCartItems, 
+        getTotalQuantityInCart,
         getTotalCartAmount, 
         all_product, 
         cartItems, 
