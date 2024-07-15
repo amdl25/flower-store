@@ -198,9 +198,6 @@ const CartItems = ({ promoCodes = [] }) => {
     };
     
     
-    
-    
-    
 
     return (
         <div className='cartitems'>

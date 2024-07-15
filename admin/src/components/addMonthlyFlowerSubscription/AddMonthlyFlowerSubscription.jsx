@@ -28,7 +28,7 @@ const AddMonthlyFlowerSubscription = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
+    
         let formData = new FormData();
         formData.append('month', flowerDetails.month);
         formData.append('flowerName', flowerDetails.flowerName);
@@ -36,28 +36,27 @@ const AddMonthlyFlowerSubscription = () => {
         if (flowerDetails.flowerImage) {
             formData.append('flowerImage', flowerDetails.flowerImage);
         }
-
+    
         try {
             const imageUploadResponse = await fetch('http://localhost:4000/upload/monthlyflower', {
                 method: 'POST',
                 body: formData
             });
-
+    
             const imageData = await imageUploadResponse.json();
-
+    
             if (imageData.success) {
+                let subscriptionData = new FormData();
+                subscriptionData.append('month', flowerDetails.month);
+                subscriptionData.append('flowerName', flowerDetails.flowerName);
+                subscriptionData.append('description', flowerDetails.description);
+                subscriptionData.append('flowerImage', imageData.image_url);
+    
                 const flowerDetailsResponse = await fetch('http://localhost:4000/api/monthlyflowersubscriptions/addmonthlyflowersubscription', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        month: flowerDetails.month,
-                        flowerName: flowerDetails.flowerName,
-                        description: flowerDetails.description,
-                    })
+                    body: subscriptionData
                 });
-
+    
                 const response = await flowerDetailsResponse.json();
                 if (response.success) {
                     setMessage('Monthly flower added successfully!');
@@ -78,6 +77,8 @@ const AddMonthlyFlowerSubscription = () => {
             setMessage('An error occurred while adding the monthly flower.');
         }
     };
+    
+    
 
     return (
         <div className="add-monthly-flower">
