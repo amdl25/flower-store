@@ -32,7 +32,7 @@ const AddPromoCode = () => {
 
             const data = await response.json();
             if (data.success) {
-                alert('Promo code added successfully');
+                alert('Cod de reducere adăugat cu succes');
                 setPromoCodeData({
                     code: '',
                     discountType: 'procent',
@@ -43,11 +43,11 @@ const AddPromoCode = () => {
                 });
             } else {
                 console.error('Error adding promo code:', data.error);
-                alert('Error adding promo code: ' + data.error);
+                alert('Eroare la adăugarea codului de reducere: ' + data.error);
             }
         } catch (error) {
             console.error('Error adding promo code:', error);
-            alert('Error adding promo code');
+            alert('Eroare la adăugarea codului de reducere');
         }
     };
 

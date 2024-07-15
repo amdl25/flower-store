@@ -51,13 +51,13 @@ const AddFlower = () => {
             });
             const result = await response.json();
             if (result.success) {
-                alert(`Flower added successfully with ID: ${result.id}`);
+                alert(`Floarea ${name} a fost adăugată cu succes` );
             } else {
-                alert(`Failed to add flower: ${result.error}`);
+                alert(`Eroare la adăugarea florii: ${result.error}`);
             }
         } catch (error) {
             console.error('Error adding flower:', error);
-            alert('Error adding flower');
+            alert('Eroare la adăugarea florii');
         }
     };
 

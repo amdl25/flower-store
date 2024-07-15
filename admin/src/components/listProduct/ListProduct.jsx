@@ -58,13 +58,13 @@ const ListProduct = () => {
                 if (data.success) {
                     imageUrl = data.image_url;
                 } else {
-                    alert('Image upload failed');
+                    alert('Eroare la încărcarea imaginii');
                     return;
                 }
             })
             .catch(error => {
                 console.error('Error uploading image:', error);
-                alert('Error uploading image');
+                alert('Eroare la încărcarea imaginii');
                 return;
             });
         }

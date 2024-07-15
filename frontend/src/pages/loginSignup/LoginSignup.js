@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import './LoginSignup.css';
 
 const LoginSignup = ({ onLogin, onSignup, isAuthenticated }) => {
@@ -44,11 +46,11 @@ const LoginSignup = ({ onLogin, onSignup, isAuthenticated }) => {
                 onLogin({ email: responseData.user.email, name: responseData.user.name, address: responseData.user.address });
                 navigate('/profil');
             } else {
-                alert(responseData.errors || "Login failed. Please try again.");
+                toast.error(responseData.errors || "Autentificarea a eșuat. Vă rugăm să încercați din nou.");
             }
         } catch (error) {
             console.error("Login error:", error);
-            alert("An error occurred during login. Please try again.");
+            toast.error("A apărut o eroare la autentificare. Vă rugăm să încercați din nou.");
         }
     };
 
@@ -72,11 +74,11 @@ const LoginSignup = ({ onLogin, onSignup, isAuthenticated }) => {
                 onSignup({ email: formData.email, name: formData.username });
                 navigate('/profil');
             } else {
-                alert(responseData.errors || "Signup failed. Please try again.");
+                toast.error(responseData.errors || "Înregistrarea a eșuat. Vă rugăm să încercați din nou.");
             }
         } catch (error) {
             console.error("Signup error:", error);
-            alert("An error occurred during signup. Please try again.");
+            toast.error("A apărut o eroare la înregistrare. Vă rugăm să încercați din nou.");
         }
     };
 
@@ -116,6 +118,7 @@ const LoginSignup = ({ onLogin, onSignup, isAuthenticated }) => {
                     : <p className='loginsignup-login'>Nu ai cont? <span onClick={() => { setState("Creare cont") }}>Creează-ți cont aici</span></p>
                 }
             </div>
+            <ToastContainer />
         </div>
     );
 };

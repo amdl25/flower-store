@@ -29,14 +29,14 @@ const AddOccasion = () => {
             });
             const result = await response.json();
             if (result.success) {
-                alert(`Occasion added successfully with ID: ${result.id}`);
+                alert(`Ocazia ${occasionData.name} a fost adăugată cu succes`);
                 setOccasionData({ name: '' });
             } else {
-                alert(`Failed to add occasion: ${result.error}`);
+                alert(`Eroare la adăugarea ocaziei: ${result.error}`);
             }
         } catch (error) {
             console.error('Error adding occasion:', error);
-            alert('Error adding occasion');
+            alert('Eroare la adăugarea ocaziei');
         }
     };
 

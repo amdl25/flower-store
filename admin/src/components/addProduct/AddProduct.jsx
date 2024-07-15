@@ -136,13 +136,13 @@ const AddProduct = () => {
             responseData = data;
             if (!responseData.success) {
                 console.error('Image upload failed:', responseData);
-                alert('Image upload failed');
+                alert('Eroare la încărcarea imaginii');
                 return;
             }
         })
         .catch(error => {
             console.error('Error uploading image:', error);
-            alert('Error uploading image');
+            alert('Eroare la încărcarea imaginii');
         });
     
         if (responseData && responseData.success) {
@@ -162,12 +162,12 @@ const AddProduct = () => {
                     alert('Product added');
                 } else {
                     console.error('Failed to add product:', data);
-                    alert(`Failed to add product: ${data.error}`);
+                    alert(`Eroare la adăugarea produsului: ${data.error}`);
                 }
             })
             .catch(error => {
                 console.error('Error adding product:', error);
-                alert('Error adding product');
+                alert('Eroare la adăugarea produsului');
             });
         }
     };

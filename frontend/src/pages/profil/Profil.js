@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import Modal from 'react-modal';
 import './Profil.css';
 import { ShopContext } from '../../context/ShopContext';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const formatDate = (dateString) => {
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
@@ -96,11 +98,11 @@ const Profil = ({ userData, setIsAuthenticated, updateUserData }) => {
                 setIsEditMode(false);
                 updateUserData(data.user);
             } else {
-                alert(data.error || 'Failed to update the profile.');
+                toast.error(data.error || 'Eroare la modificarea profilului.');
             }
         } catch (error) {
             console.error('Error updating profile:', error);
-            alert('An error occurred while updating the profile. Please try again.');
+            toast.error('A apărut o eroare la modificarea profilului. Vă rugăm să încercați din nou.');
         }
     };
 
@@ -122,11 +124,11 @@ const Profil = ({ userData, setIsAuthenticated, updateUserData }) => {
                     setIsAuthenticated(false);
                     navigate('/');
                 } else {
-                    alert(data.error || 'Failed to delete the profile.');
+                    toast.error(data.error || 'Eroare la ștergerea profilului.');
                 }
             } catch (error) {
                 console.error('Error deleting profile:', error);
-                alert('An error occurred while deleting the profile. Please try again.');
+                toast.error('A apărut o eroare la ștergerea profilului. Vă rugăm să încercați din nou.');
             }
         }
     };
@@ -280,6 +282,8 @@ const Profil = ({ userData, setIsAuthenticated, updateUserData }) => {
                 <p>{selectedMessage}</p>
                 <button onClick={closeModal}>Înapoi</button>
             </Modal>
+
+            <ToastContainer/>
         </div>
     );
 };

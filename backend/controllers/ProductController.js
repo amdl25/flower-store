@@ -33,12 +33,10 @@ const addProduct = async (req, res) => {
         for (let f of flowers) {
             const dbFlower = dbFlowers.find(dbF => dbF.id === f.flower);
             if (!dbFlower) {
-                console.error(`Flower with id ${f.flower} not found`);
-                return res.status(400).json({ success: false, error: `Flower with id ${f.flower} not found` });
+                return res.status(400).json({ success: false, error: `Floarea ${f.name} nu există` });
             }
             if (f.quantity > dbFlower.quantity) {
-                console.error(`Provided quantity for flower id ${f.flower} exceeds available stock`);
-                return res.status(400).json({ success: false, error: `Provided quantity for flower id ${f.flower} exceeds available stock` });
+                return res.status(400).json({ success: false, error: `Cantitatea introdusă pentru floarea ${f.name} depășește cantitatea disponibilă` });
             }
         }
 

@@ -17,6 +17,7 @@ const ProductDisplay = (props) => {
     const [greetingMessage, setGreetingMessage] = useState("");
     const [showWarning, setShowWarning] = useState(false);
     const [flowerDetails, setFlowerDetails] = useState([]);
+    const [insufficientStock, setInsufficientStock] = useState(false);
 
     const [selectedOptions, setSelectedOptions] = useState({
         greetingCard: false,
@@ -37,6 +38,8 @@ const ProductDisplay = (props) => {
                         };
                     });
                     setFlowerDetails(details);
+                    const insufficient = details.some(flower => flower.includedQuantity > flower.quantity);
+                    setInsufficientStock(insufficient);
                 })
                 .catch(error => {
                     console.error('Error fetching flower details:', error);
@@ -199,34 +202,40 @@ const ProductDisplay = (props) => {
                         />
                     </div>
                 )}
-                
-                <div className='productdisplay-right-delivery-container'>
-                    <div className="productdisplay-right-delivery">
-                        <h1>Alegeți data și ora livrării</h1>
-                        <div className="productdisplayright-datetimepicker">
-                            <input type="date" onChange={handleDateChange} onMouseDown={(e) => e.preventDefault()} />
-                            <div className="custom-select">
-                                <Select 
-                                    value={selectedTimeOption} 
-                                    onChange={handleTimeOptionChange} 
-                                    options={timeOptions}
-                                    placeholder="" 
-                                    className="custom-select"
-                                    classNamePrefix="react-select"
-                                />
+                {insufficientStock ? (
+                    <div className='productdisplay-insufficient-stock'>
+                        <p>Stoc insuficient pentru una sau mai multe flori din aranjament.</p> 
+                    </div>
+                ) : (
+                    <>
+                        <div className='productdisplay-right-delivery-container'>
+                            <div className="productdisplay-right-delivery">
+                                <h1>Alegeți data și ora livrării</h1>
+                                <div className="productdisplayright-datetimepicker">
+                                    <input type="date" onChange={handleDateChange} onMouseDown={(e) => e.preventDefault()} />
+                                    <div className="custom-select">
+                                        <Select 
+                                            value={selectedTimeOption} 
+                                            onChange={handleTimeOptionChange} 
+                                            options={timeOptions}
+                                            placeholder="" 
+                                            className="custom-select"
+                                            classNamePrefix="react-select"
+                                        />
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div>
 
-                <button onClick={handleAddToCart} className='add-to-cart-button'>
-                    Adaugă în coș
-                </button>
-                {showWarning && (
-                    <p className='warning'>Vă rugăm să selectați data și ora livrării. Dacă alegeți opțiunea de felicitare, completați și textul pentru felicitare.</p>
+                        <button onClick={handleAddToCart} className='add-to-cart-button'>
+                            Adaugă în coș
+                        </button>
+                        {showWarning && (
+                            <p className='warning'>Vă rugăm să selectați data și ora livrării. Dacă alegeți opțiunea de felicitare, completați și textul pentru felicitare.</p>
+                        )}
+                    </>
                 )}
-                <ToastContainer />
-                
+                <ToastContainer />  
             </div>
         </div>
     );

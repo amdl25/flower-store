@@ -2,6 +2,8 @@ import React, { useState, useContext } from 'react';
 import './PaymentMock.css';
 import { useNavigate } from 'react-router-dom';
 import { ShopContext } from '../../context/ShopContext';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const PaymentMock = () => {
     const [cardNumber, setCardNumber] = useState('');
@@ -13,7 +15,7 @@ const PaymentMock = () => {
 
     const handlePayment = async (e) => {
         e.preventDefault();
-        alert('Plata a fost procesată cu succes!');
+        toast.success('Plata a fost procesată cu succes!');
 
         const orderDetails = JSON.parse(sessionStorage.getItem('orderDetails'));
 
@@ -33,11 +35,11 @@ const PaymentMock = () => {
                 clearCart();
                 navigate('/order-success');
             } else {
-                alert('Failed to create order. Please try again.');
+                toast.error('Crearea comenzii a eșuat. Vă rugăm să încercați din nou.');
             }
         } catch (error) {
             console.error('Error creating order:', error);
-            alert('An error occurred while creating the order.');
+            toast.error('A apărut o eroare la crearea comenzii.');
         }
     };
 
@@ -87,6 +89,7 @@ const PaymentMock = () => {
                 </div>
                 <button type="submit">Plătește</button>
             </form>
+            <ToastContainer/>
         </div>
     );
 };
