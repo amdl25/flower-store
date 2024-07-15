@@ -58,19 +58,6 @@ const addOrder = async (req, res) => {
         const newOrder = new Order(orderFields);
         await newOrder.save();
 
-        for (let product of products) {
-            const productInDb = await Product.findOne({ id: product.productId });
-            if (productInDb) {
-                for (let productFlower of productInDb.flowers) {
-                    const flowerInDb = await Flower.findOne({ id: productFlower.flower });
-                    if (flowerInDb) {
-                        flowerInDb.quantity -= productFlower.quantity * product.quantity;
-                        await flowerInDb.save();
-                    }
-                }
-            }
-        }
-
         if (promoCode) {
             const promo = await PromoCode.findOne({ code: promoCode });
 
@@ -104,12 +91,6 @@ const addOrder = async (req, res) => {
         res.status(500).json({ success: false, error: 'Failed to create order' });
     }
 };
-
-
-
-
-
-
 
 const getUserOrders = async (req, res) => {
     try {

@@ -151,10 +151,19 @@ const CartItems = ({ promoCodes = [] }) => {
             return;
         }
     
-        const orderedFlowers = Object.keys(cartItems).map(itemId => ({
-            flowerId: itemId,
-            quantity: cartItems[itemId].quantity
-        })).filter(item => item.quantity > 0);
+        const orderedFlowers = Object.keys(cartItems)
+            .map(itemId => {
+                const product = all_product.find(prod => prod.id === Number(itemId));
+                if (product && cartItems[itemId].quantity > 0) {
+                    return product.flowers.map(flower => ({
+                        flowerId: flower.flower,
+                        quantity: flower.quantity * cartItems[itemId].quantity
+                    }));
+                }
+                return null;
+            })
+            .flat()
+            .filter(item => item !== null);
     
         if (orderedFlowers.length === 0) {
             setErrorMessage('Nu aveți niciun produs valid în coș.');
@@ -187,6 +196,8 @@ const CartItems = ({ promoCodes = [] }) => {
             setErrorMessage('A apărut o eroare la finalizarea comenzii.');
         }
     };
+    
+    
     
     
     
