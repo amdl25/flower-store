@@ -82,19 +82,47 @@ const updateFlower = async (req, res) => {
 const decreaseFlowerQuantity = async (req, res) => {
     const { orderedFlowers } = req.body;
 
+    console.log('Received request to decrease quantity:', req.body);
+
+    if (!Array.isArray(orderedFlowers) || orderedFlowers.length === 0) {
+        return res.status(400).json({ error: 'Invalid input data. orderedFlowers should be a non-empty array.' });
+    }
+
     try {
         for (let flower of orderedFlowers) {
+            if (!flower.flowerId || typeof flower.quantity !== 'number' || flower.quantity <= 0) {
+                console.error('Invalid flower data:', flower);
+                return res.status(400).json({ error: 'Invalid flower data. Each flower must have a valid flowerId and a positive quantity.' });
+            }
+
+            const foundFlower = await Flower.findOne({ id: flower.flowerId });
+            if (!foundFlower) {
+                console.error(`Flower with ID ${flower.flowerId} not found.`);
+                return res.status(404).json({ error: `Flower with ID ${flower.flowerId} not found.` });
+            }
+
+            const newQuantity = foundFlower.quantity - flower.quantity;
+            if (isNaN(newQuantity) || newQuantity < 0) {
+                console.error(`Invalid resulting quantity for flower ID ${flower.flowerId}:`, newQuantity);
+                return res.status(400).json({ error: `Invalid resulting quantity for flower ID ${flower.flowerId}.` });
+            }
+
             await Flower.updateOne(
                 { id: flower.flowerId },
-                { $inc: { quantity: -flower.quantity } }
+                { $set: { quantity: newQuantity } }
             );
+
+            console.log(`Updated flower ID ${flower.flowerId}: Decremented by ${flower.quantity}, New quantity ${newQuantity}`);
         }
-        res.status(200).send('Order processed and quantities updated.');
+        res.status(200).json({ message: 'Order processed and quantities updated.' });
     } catch (error) {
         console.error('Error decreasing flower quantity:', error);
-        res.status(500).send('An error occurred while processing the order.');
+        res.status(500).json({ error: 'An error occurred while processing the order.' });
     }
-}
+};
+
+
+
 
 module.exports = {
     addFlower,

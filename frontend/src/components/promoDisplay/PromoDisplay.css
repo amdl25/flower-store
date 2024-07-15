@@ -102,5 +102,57 @@
   .promo-code-container.ineligible {
     background-color: #fbe4e4;
   }
+
+  @media(max-width: 1024px) {
+    .promo-display-container {
+        bottom: 10px;
+        right: 10px;
+        max-width: 200px;
+        padding: 10px;
+    }
+
+    .promo-display-wrapper {
+        bottom: 10px;
+        right: 10px;
+        max-width: 200px;
+    }
+
+    .promo-display {
+        padding: 10px;
+    }
+
+    .promo-code-container {
+        padding: 8px;
+        font-size: 14px;
+    }
+
+}
+
+  @media(max-width: 500px) {
+    .promo-display-container {
+        bottom: 10px;
+        right: 10px;
+        max-width: 200px;
+        padding: 10px;
+    }
+
+    .promo-display-wrapper {
+        bottom: 10px;
+        right: 10px;
+        max-width: 200px;
+    }
+
+    .promo-display {
+        padding: 10px;
+    }
+
+    .promo-code-container {
+        padding: 8px;
+        font-size: 12px;
+    }
+
+}
+
+
   
   

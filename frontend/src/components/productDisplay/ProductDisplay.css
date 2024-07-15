@@ -180,7 +180,7 @@
     display: flex;
     align-items: center;
     margin-top: 40px;
-    margin-left: 10px;
+    margin-left: 5px;
 }
 
 
@@ -188,7 +188,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-right: 15px;
+    margin-right: 20px;
 }
 
 .quantity-input-container {

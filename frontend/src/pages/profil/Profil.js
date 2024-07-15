@@ -11,8 +11,6 @@ const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString('ro-RO', options);
 };
 
-
-
 const Profil = ({ userData, setIsAuthenticated, updateUserData }) => {
     const [isEditMode, setIsEditMode] = useState(false);
     const [formData, setFormData] = useState(userData);
@@ -20,6 +18,7 @@ const Profil = ({ userData, setIsAuthenticated, updateUserData }) => {
     const [orders, setOrders] = useState([]);
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [selectedMessage, setSelectedMessage] = useState('');
+    const [deleteModalIsOpen, setDeleteModalIsOpen] = useState(false);
     const navigate = useNavigate();
     const { logout, all_product } = useContext(ShopContext);
 
@@ -107,30 +106,29 @@ const Profil = ({ userData, setIsAuthenticated, updateUserData }) => {
     };
 
     const handleDeleteProfile = async () => {
-        if (window.confirm('Ești sigur că vrei să ștergi profilul tău?')) {
-            const token = localStorage.getItem('auth-token');
-            try {
-                const response = await fetch('http://localhost:4000/api/user/profile', {
-                    method: 'DELETE',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
-
-                const data = await response.json();
-                if (data.success) {
-                    localStorage.removeItem('auth-token');
-                    setIsAuthenticated(false);
-                    navigate('/');
-                } else {
-                    toast.error(data.error || 'Eroare la ștergerea profilului.');
+        const token = localStorage.getItem('auth-token');
+        try {
+            const response = await fetch('http://localhost:4000/api/user/profile', {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
                 }
-            } catch (error) {
-                console.error('Error deleting profile:', error);
-                toast.error('A apărut o eroare la ștergerea profilului. Vă rugăm să încercați din nou.');
+            });
+
+            const data = await response.json();
+            if (data.success) {
+                localStorage.removeItem('auth-token');
+                setIsAuthenticated(false);
+                navigate('/');
+            } else {
+                toast.error(data.error || 'Eroare la ștergerea profilului.');
             }
+        } catch (error) {
+            console.error('Error deleting profile:', error);
+            toast.error('A apărut o eroare la ștergerea profilului. Vă rugăm să încercați din nou.');
         }
+        setDeleteModalIsOpen(false);
     };
 
     const handleChange = (e) => {
@@ -144,6 +142,14 @@ const Profil = ({ userData, setIsAuthenticated, updateUserData }) => {
 
     const closeModal = () => {
         setModalIsOpen(false);
+    };
+
+    const openDeleteModal = () => {
+        setDeleteModalIsOpen(true);
+    };
+
+    const closeDeleteModal = () => {
+        setDeleteModalIsOpen(false);
     };
 
     return (
@@ -212,7 +218,7 @@ const Profil = ({ userData, setIsAuthenticated, updateUserData }) => {
             <div className="profile-actions">
                 {!isEditMode && <button onClick={handleEditProfile}>Editează profilul</button>}
                 <button onClick={handleLogout}>Deconectare</button>
-                <button onClick={handleDeleteProfile}>Șterge profilul</button>
+                <button onClick={openDeleteModal}>Șterge profilul</button>
             </div>
 
             <div className="user-orders">
@@ -281,6 +287,20 @@ const Profil = ({ userData, setIsAuthenticated, updateUserData }) => {
                 <h2>Mesaj Felicitare</h2>
                 <p>{selectedMessage}</p>
                 <button onClick={closeModal}>Înapoi</button>
+            </Modal>
+
+            <Modal
+                isOpen={deleteModalIsOpen}
+                onRequestClose={closeDeleteModal}
+                contentLabel="Confirmare Ștergere Profil"
+                className="modal"
+                overlayClassName="modal-overlay"
+            >
+                <h2>Ești sigur că vrei să-ți ștergi profilul?</h2>
+                <div className="confirm-modal-buttons">
+                    <button onClick={handleDeleteProfile} className="confirm-modal-button confirm-modal-confirm">Da</button>
+                    <button onClick={closeDeleteModal} className="confirm-modal-button confirm-modal-cancel">Nu</button>
+                </div>
             </Modal>
 
             <ToastContainer/>
