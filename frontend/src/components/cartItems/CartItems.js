@@ -145,13 +145,39 @@ const CartItems = ({ promoCodes = [] }) => {
     };
     
 
-    const handleCheckout = () => {
+    const handleCheckout = async () => {
         if (isCartEmpty) {
             setErrorMessage('Nu aveți niciun produs în coș.');
             return;
         }
-        navigate('/checkout');
+    
+        const orderedFlowers = Object.keys(cartItems).map(itemId => ({
+            flowerId: itemId,
+            quantity: cartItems[itemId].quantity
+        }));
+    
+        try {
+            const response = await fetch('http://localhost:4000/api/flowers/decreasequantity', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('auth-token')}`
+                },
+                body: JSON.stringify({ orderedFlowers })
+            });
+    
+            if (response.ok) {
+                navigate('/checkout');
+            } else {
+                const error = await response.json();
+                setErrorMessage(error.message || 'An error occurred during checkout.');
+            }
+        } catch (error) {
+            console.error('Error during checkout:', error);
+            setErrorMessage('A apărut o eroare la finalizarea comenzii.');
+        }
     };
+    
 
     return (
         <div className='cartitems'>

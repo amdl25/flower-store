@@ -79,10 +79,28 @@ const updateFlower = async (req, res) => {
     }
 }
 
+const decreaseFlowerQuantity = async (req, res) => {
+    const { orderedFlowers } = req.body;
+
+    try {
+        for (let flower of orderedFlowers) {
+            await Flower.updateOne(
+                { id: flower.flowerId },
+                { $inc: { quantity: -flower.quantity } }
+            );
+        }
+        res.status(200).send('Order processed and quantities updated.');
+    } catch (error) {
+        console.error('Error decreasing flower quantity:', error);
+        res.status(500).send('An error occurred while processing the order.');
+    }
+}
+
 module.exports = {
     addFlower,
     removeFlower,
     getAllFlowers,
     flowerColors,
-    updateFlower
+    updateFlower,
+    decreaseFlowerQuantity
 };
