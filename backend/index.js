@@ -4,6 +4,7 @@ const cors = require('cors');
 const multer = require('multer');
 const path = require('path');
 const cron = require('node-cron');
+const { sendMonthlyFlowerEmail } = require('./emailService');
 
 const app = express();
 const port = 4000;
@@ -40,6 +41,16 @@ app.post("/upload/monthlyflower", upload.single('flowerImage'), (req, res) => {
     });
 });
 
+
+app.post('/test-send-email', async (req, res) => {
+    try {
+        await sendMonthlyFlowerEmail();
+        res.json({ success: true, message: 'Emails sent successfully' });
+    } catch (error) {
+        console.error('Error sending emails:', error);
+        res.status(500).json({ success: false, message: 'Error sending emails', error: error.message });
+    }
+});
 
 cron.schedule('0 0 1 * *', async () => {
     console.log('Trimiterea email-urilor pentru floarea lunii...');
