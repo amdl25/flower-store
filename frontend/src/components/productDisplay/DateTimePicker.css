@@ -7,15 +7,15 @@
 .productdisplayright-datetimepicker {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 5px;
   margin-top: 10px;
   position: relative;
 }
 
 .custom-select {
   position: relative;
-  margin-left: 10px;
-  width: 140px;
+  margin-left: 5px;
+  width: 155px;
 }
 
 .custom-select .react-select__control {

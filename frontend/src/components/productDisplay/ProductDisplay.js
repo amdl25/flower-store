@@ -227,24 +227,28 @@ const ProductDisplay = (props) => {
                             </div>
                         </div>
 
+                        <div className='productdisplay-right-controls'>
                         <div className='quantity-selector'>
-                            <label>Cantitate:</label>
                             <div className='quantity-input-container'>
                                 <button onClick={decrementQuantity}>-</button>
-                                <input 
-                                    type="number" 
-                                    value={quantity} 
-                                    min="1" 
-                                    max={maxQuantity} 
-                                    readOnly 
-                                />
+                                <div className='quantity-input-wrapper'>
+                                    <input 
+                                        type="number" 
+                                        value={quantity} 
+                                        min="1" 
+                                        max={maxQuantity} 
+                                        readOnly 
+                                    />
+                                </div>
                                 <button onClick={incrementQuantity}>+</button>
                             </div>
                         </div>
 
-                        <button onClick={handleAddToCart} className='add-to-cart-button'>
-                            Adaugă în coș
-                        </button>
+
+                            <button onClick={handleAddToCart} className='add-to-cart-button'>
+                                Adaugă în coș
+                            </button>
+                        </div>
                         {showWarning && (
                             <p className='warning'>Vă rugăm să selectați data și ora livrării. Dacă alegeți opțiunea de felicitare, completați și textul pentru felicitare.</p>
                         )}
